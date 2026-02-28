@@ -87,7 +87,7 @@ export function SiteHeader() {
                 className="relative"
               >
                 <Image
-                  src="/images/isolele-logo.png"
+                  src="/isolele-logo.png"
                   alt="ISOLELE"
                   width={50}
                   height={50}
