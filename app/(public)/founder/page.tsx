@@ -95,7 +95,7 @@ export default function FounderPage() {
           {/* Background image */}
           <div className="absolute inset-0">
             <Image
-              src="/images/king-kufulula.jpg"
+              src="/founder.jpg"
               alt="HRM King Kufulula"
               fill
               className="object-cover object-top"
@@ -202,7 +202,7 @@ export default function FounderPage() {
               >
                 <div className="aspect-[3/4] rounded-2xl overflow-hidden relative" style={{ border: "2px solid var(--isolele-accent)" }}>
                   <Image
-                    src="/images/king-kufulula.jpg"
+                    src="/founder.jpg"
                     alt="HRM King Kufulula - Royal Portrait"
                     fill
                     className="object-cover object-top"

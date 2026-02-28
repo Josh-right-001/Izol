@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US', 'pt_BR', 'es_ES', 'sw_TZ', 'ln_CD', 'zu_ZA'],
     images: [
       {
-        url: '/images/isolele-logo.jpg',
+        url: '/logo.jpg',
         width: 1200,
         height: 630,
         alt: 'ISOLELE - African Superheroes Universe',
@@ -75,13 +75,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ISOLELE COMICS | Home of African Superheroes',
     description: 'Discover Zaiire, the Prince of Kongo. Black African superhero comics celebrating heritage and African mythology.',
-    images: ['/images/isolele-logo.jpg'],
+    images: ['/logo.jpg'],
     creator: '@isolelecomics',
     site: '@isolelecomics',
   },
   icons: {
-    icon: '/images/isolele-logo.jpg',
-    apple: '/images/isolele-logo.jpg',
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
   },
   robots: {
     index: true,

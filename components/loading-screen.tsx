@@ -49,14 +49,14 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Leopard pattern background at 15% opacity */}
+          {/* Comic book cover background at 20% opacity */}
           <div 
             className="absolute inset-0"
             style={{
-              backgroundImage: "url('/images/leopard-pattern.jpg')",
+              backgroundImage: "url('/loading-bg.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              opacity: 0.15,
+              opacity: 0.2,
               pointerEvents: "none"
             }}
           />
