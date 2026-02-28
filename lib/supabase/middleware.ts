@@ -13,7 +13,7 @@ export async function updateSession(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('[v0] Supabase environment variables not configured.')
+    // Supabase is optional - not all features require it
     return supabaseResponse
   }
 
