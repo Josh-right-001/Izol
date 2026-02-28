@@ -91,12 +91,11 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             >
               <Image
-                src="/images/isolele-logo.png"
+                src="/isolele-logo-transparent.png"
                 alt="ISOLELE"
-                width={320}
-                height={320}
-                className="w-56 h-56 sm:w-72 sm:h-72 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
-                style={{ width: "auto", height: "auto" }}
+                width={240}
+                height={240}
+                className="w-48 h-48 sm:w-64 sm:h-64 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
                 priority
               />
             </motion.div>

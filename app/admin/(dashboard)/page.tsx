@@ -12,6 +12,7 @@ import {
   DollarSign,
   ArrowRight,
   Clock,
+  Bot,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -144,9 +145,18 @@ export default function AdminDashboard() {
           <h1 className="text-2xl font-bold text-white">Tableau de bord</h1>
           <p className="text-gray-400">Bienvenue dans le Centre de Commandes du Mythe</p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <Clock className="w-4 h-4" />
-          <span>Derniere mise a jour: maintenant</span>
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/chatbot"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+          >
+            <Bot className="w-5 h-5" />
+            <span>AI Assistant</span>
+          </Link>
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Clock className="w-4 h-4" />
+            <span>Derniere mise a jour: maintenant</span>
+          </div>
         </div>
       </div>
 

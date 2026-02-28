@@ -51,6 +51,7 @@ export function SiteHeader() {
     { key: "nav_characters", href: "/characters", hasDropdown: true, dropdownItems: characterLinks },
     { key: "nav_shop", href: "/shop" },
     { key: "nav_supporters", href: "/supporters", hasDropdown: true, dropdownKey: "supporters" },
+    { key: "nav_chatbot", href: "/chatbot" },
   ]
 
   return (
@@ -87,12 +88,12 @@ export function SiteHeader() {
                 className="relative"
               >
                 <Image
-                  src="/isolele-logo.png"
+                  src="/isolele-logo-transparent.png"
                   alt="ISOLELE"
-                  width={50}
-                  height={50}
-                  className="object-contain"
-                  style={{ width: "auto", height: "auto" }}
+                  width={60}
+                  height={60}
+                  className="object-contain max-w-[60px] max-h-[60px]"
+                  priority
                 />
                 <motion.div
                   className="absolute inset-0 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300"
