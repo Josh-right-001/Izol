@@ -14,7 +14,7 @@ const characters = [
     name: "ZAIRE",
     title: "Prince du Kongo",
     description: "Fils du tonnerre et de la royaute, choisi par le Collier de la Destinee.",
-    image: "/images/characters/zaire.jpg",
+    image: "/characters/zaire-official.jpg",
     color: "#D4AF37",
   },
   {
@@ -22,7 +22,7 @@ const characters = [
     name: "KIMOYA",
     title: "La Kandake Renaissante",
     description: "Heritiere des reines guerrieres, chasseuse d\u2019ombres.",
-    image: "/images/characters/kimoya.jpg",
+    image: "/characters/royal-court.jpg",
     color: "#B3541E",
   },
   {
@@ -30,7 +30,7 @@ const characters = [
     name: "ZATTAR",
     title: "L'Architecte de Sang",
     description: "Genie maudit de la technologie interdite.",
-    image: "/images/characters/zattar.jpg",
+    image: "/characters/bakala-baku.jpg",
     color: "#8B0000",
   },
   {
@@ -38,7 +38,7 @@ const characters = [
     name: "LES JUMEAUX NJOKO",
     title: "Prophetes Orphelins",
     description: "Orphelins prophetes qui parlent avec les rivieres et les etoiles.",
-    image: "/images/characters/njoko.jpg",
+    image: "/characters/cast-ensemble.jpg",
     color: "#4169E1",
   },
   {
@@ -46,7 +46,7 @@ const characters = [
     name: "REINE IMVULA",
     title: "Gardienne des Betes du Ciel",
     description: "Souveraine de Stormglass, gardienne des Betes du Ciel.",
-    image: "/images/characters/imvula.jpg",
+    image: "/characters/zariko-tabani.jpg",
     color: "#9932CC",
   },
 ]

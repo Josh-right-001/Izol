@@ -15,6 +15,7 @@ import {
   Bot,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface StatCard {
   label: string
@@ -157,6 +158,51 @@ export default function AdminDashboard() {
             <Clock className="w-4 h-4" />
             <span>Derniere mise a jour: maintenant</span>
           </div>
+        </div>
+      </div>
+
+      {/* ISOLELE Brand Section */}
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-8 border border-yellow-500/20 shadow-lg">
+        <div className="flex items-center gap-6">
+          <div className="flex-shrink-0">
+            <Image
+              src="/isolele-logo-transparent.png"
+              alt="ISOLELE Logo"
+              width={120}
+              height={120}
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <h2 className="text-3xl font-bold text-white mb-2">ISOLELE</h2>
+            <p className="text-gray-300 mb-4">African Mythology. Reawakened.</p>
+            <p className="text-yellow-500 font-semibold">Le Prince du Kongo Universe</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Brand Assets Gallery */}
+      <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+        <h3 className="text-xl font-bold text-white mb-4">Brand Assets</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {[
+            { src: "/isolele-logo-transparent.png", alt: "ISOLELE Logo" },
+            { src: "/founder.jpg", alt: "H.R.M King Kufulula" },
+            { src: "/isolele-city.jpg", alt: "ISOLELE City" },
+            { src: "/characters/zaire-official.jpg", alt: "Zaire" },
+            { src: "/characters/bambula-warrior.jpg", alt: "Bambula" },
+            { src: "/universe/full-cast.jpg", alt: "Full Cast" },
+          ].map((asset) => (
+            <div key={asset.src} className="relative h-40 rounded-lg overflow-hidden border border-gray-600 hover:border-yellow-500 transition-colors group">
+              <Image
+                src={asset.src}
+                alt={asset.alt}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+              <p className="absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs p-2 truncate">{asset.alt}</p>
+            </div>
+          ))}
         </div>
       </div>
 

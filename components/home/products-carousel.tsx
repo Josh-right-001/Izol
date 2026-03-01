@@ -29,7 +29,7 @@ const products: ProductSlide[] = [
     subtitleFr: "Le Collier de la Destinée",
     description: "A thrilling and edifying adventure echoing the spirit of The Lion King and Black Panther, offering young readers a celebration of heritage, courage, and self-discovery.",
     descriptionFr: "Une aventure palpitante et édifiante qui fait écho à l'esprit du Roi Lion et de Black Panther, offrant aux jeunes lecteurs une célébration du patrimoine, du courage et de la découverte de soi.",
-    image: "/images/zaiire-hero-cover.jpg",
+    image: "/books/mokele-crowned-by-streets.jpg",
     link: "/shop/zaiire"
   },
   {
@@ -40,7 +40,7 @@ const products: ProductSlide[] = [
     subtitleFr: "Le Pouvoir de la Reine Nubienne",
     description: "An epic tale of sovereignty and wisdom, following Kimoya as she rises to claim her throne and restore the ancient glory of her kingdom through courage and ancestral magic.",
     descriptionFr: "Un conte épique de souveraineté et de sagesse, suivant Kimoya tandis qu'elle s'élève pour revendiquer son trône et restaurer la gloire ancienne de son royaume par le courage et la magie ancestrale.",
-    image: "/images/kimoya-cover.jpg",
+    image: "/books/mokele-crowned-by-streets.jpg",
     link: "/shop/kimoya"
   },
   {
@@ -51,7 +51,7 @@ const products: ProductSlide[] = [
     subtitleFr: "Maître des Runes Anciennes",
     description: "A dark and mystical journey through forgotten kingdoms, where Zattar's command over blood magic and ancient blueprints challenges the very fabric of reality itself.",
     descriptionFr: "Un voyage sombre et mystique à travers des royaumes oubliés, où la maîtrise de la magie du sang de Zattar et ses plans anciens défient le tissu même de la réalité.",
-    image: "/images/zattar-cover.jpg",
+    image: "/books/mokele-crowned-by-streets.jpg",
     link: "/shop/zattar"
   },
   {
@@ -62,7 +62,7 @@ const products: ProductSlide[] = [
     subtitleFr: "Dualité du Pouvoir",
     description: "Twin souls separated by fate yet forever connected, their intertwined story reveals the balance between light and shadow, unity and division in the African cosmos.",
     descriptionFr: "Deux âmes jumelles séparées par le destin mais éternellement connectées, leur histoire entrelacée révèle l'équilibre entre la lumière et l'ombre, l'unité et la division dans le cosmos africain.",
-    image: "/images/njoko-cover.jpg",
+    image: "/books/mokele-crowned-by-streets.jpg",
     link: "/shop/njoko"
   },
   {
@@ -73,7 +73,7 @@ const products: ProductSlide[] = [
     subtitleFr: "Souveraine des Éléments",
     description: "Command the heavens and the rain. Queen Imvula's reign brings hope and transformation as she harnesses the elements to protect her people from ancient evils.",
     descriptionFr: "Commandez les cieux et la pluie. Le règne de la Reine Imvula apporte l'espoir et la transformation alors qu'elle exploite les éléments pour protéger son peuple des maux anciens.",
-    image: "/images/imvula-cover.jpg",
+    image: "/books/mokele-crowned-by-streets.jpg",
     link: "/shop/imvula"
   },
 ]

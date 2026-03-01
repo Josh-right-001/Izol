@@ -17,7 +17,7 @@ const articles = [
     excerpt: "Une nouvelle vague d'historiens et de leaders culturels met en lumiere Makanda, un empire congolais autrefois cache qui detiendrait le veritable heritage derriere le mythe de Wakanda.",
     readTime: "5 min",
     date: "Mars 2025",
-    image: "/images/news/makanda.jpg",
+    image: "/events/event-showcase-1.jpg",
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const articles = [
     excerpt: "\"Le colonialisme n'a pas efface notre grandeur. Il l'a enterree sous son propre mythe.\" Un plan pour la restauration de l'imagination supprimee de l'Afrique.",
     readTime: "8 min",
     date: "Fevrier 2025",
-    image: "/images/news/memory.jpg",
+    image: "/events/event-showcase-2.jpg",
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ const articles = [
     excerpt: "Un voyage cartographique a travers une civilisation africaine effacee dont la memoire a survecu dans des symboles, pas dans des frontieres.",
     readTime: "6 min",
     date: "Janvier 2025",
-    image: "/images/news/empire.jpg",
+    image: "/events/event-showcase-1.jpg",
   },
 ]
 

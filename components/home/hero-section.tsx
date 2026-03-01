@@ -27,7 +27,7 @@ export function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/images/zaiire-hero-cover.jpg')",
+          backgroundImage: "url('/art/zaire-prince-kongo.jpg')",
         }}
       />
       <div
@@ -189,7 +189,7 @@ export function HeroSection() {
             >
               <div className="relative w-full max-w-2xl mx-auto aspect-[2/3] sm:aspect-[3/4] lg:max-w-3xl">
                 <Image
-                  src="/images/what-is-isolele.jpg"
+                  src="/universe/full-cast.jpg"
                   alt="What is Isolele? A visionary African universe born to reclaim memory, mythology, and power."
                   fill
                   className="object-contain drop-shadow-[0_0_40px_rgba(212,175,55,0.2)]"

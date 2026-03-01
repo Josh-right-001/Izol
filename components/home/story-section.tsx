@@ -57,7 +57,7 @@ export function StorySection() {
           >
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
               <Image
-                src="/images/zaiire-hero-cover.jpg"
+                src="/art/zaire-prince-kongo.jpg"
                 alt="Zaiire Prince du Kongo"
                 fill
                 className="object-cover"

@@ -18,7 +18,7 @@ interface PageContent {
 const DEFAULT_CONTENT: PageContent = {
   heroTitle: "ISOLELE – MYTHOLOGIE AFRICAINE RÉVEILLÉE",
   heroDesc: "Un univers visionnaire où les super-héros sont choisis par le destin, où les royaumes kongo sont vivants, et où chaque histoire porte l'âme d'un continent.",
-  heroImage: "/images/hero-bg.jpg",
+  heroImage: "/art/zaire-prince-kongo.jpg",
   productCarouselTitle: "Nos Livres & Produits",
   universeSectionTitle: "L'Univers Isolele",
   storySectionTitle: "L'Histoire Commence",

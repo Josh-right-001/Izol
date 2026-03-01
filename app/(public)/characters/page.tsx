@@ -11,6 +11,7 @@ const characters = [
   {
     id: "zaire",
     name: "ZAIRE",
+    image: "/characters/zaire-official.jpg",
     title: { en: "Prince of Kongo", fr: "Prince du Kongo" },
     description: {
       en: "Son of thunder and royalty, chosen by the Necklace of Destiny. Zaire must balance his privileged life with the demands of a hero's calling.",
@@ -27,6 +28,7 @@ const characters = [
   {
     id: "kimoya",
     name: "KIMOYA",
+    image: "/characters/royal-court.jpg",
     title: { en: "The Reborn Kandake", fr: "La Kandake Renaissante" },
     description: {
       en: "Heir of warrior queens, shadow hunter and protector of the Ethercobalt. She carries the power of Nubian gods in her veins.",
@@ -43,6 +45,7 @@ const characters = [
   {
     id: "zattar",
     name: "ZATTAR",
+    image: "/characters/bakala-baku.jpg",
     title: { en: "The Blood Architect", fr: "L'Architecte de Sang" },
     description: {
       en: "Cursed genius of forbidden technology. Master of techno-mystical constructs that blur the line between science and ancient magic.",
@@ -59,6 +62,7 @@ const characters = [
   {
     id: "jumeaux-njoko",
     name: { en: "THE NJOKO TWINS", fr: "LES JUMEAUX NJOKO" },
+    image: "/characters/cast-ensemble.jpg",
     title: { en: "Orphan Prophets", fr: "Prophètes Orphelins" },
     description: {
       en: "Orphan prophets who speak with rivers and stars. Their dual nature connects the physical realm to the spirit world.",
@@ -75,6 +79,7 @@ const characters = [
   {
     id: "reine-imvula",
     name: { en: "QUEEN IMVULA", fr: "REINE IMVULA" },
+    image: "/characters/zariko-tabani.jpg",
     title: { en: "Guardian of Sky Beasts", fr: "Gardienne des Bêtes du Ciel" },
     description: {
       en: "Sovereign of Stormglass, guardian of the celestial creatures that patrol the boundaries between worlds.",
@@ -138,30 +143,40 @@ export default function CharactersPage() {
                   flexDirection: index % 2 === 0 ? 'row' : 'row-reverse'
                 }}
               >
-                {/* Character Image Placeholder */}
+                {/* Character Image */}
                 <motion.div
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.05 }}
                   className={`relative aspect-[3/4] rounded-2xl overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}
                   style={{ 
-                    backgroundColor: 'var(--isolele-bg-secondary)',
                     border: `2px solid ${character.color}`,
                     boxShadow: `0 0 40px ${character.color}40`
                   }}
                 >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <Crown className="w-24 h-24 mx-auto mb-4" style={{ color: character.color }} />
-                      <span className="text-2xl font-bold" style={{ color: character.color }}>
-                        {typeof character.name === 'string' ? character.name : t(character.name)}
-                      </span>
+                  {character.image ? (
+                    <>
+                      <Image
+                        src={character.image}
+                        alt={typeof character.name === 'string' ? character.name : character.name.en}
+                        fill
+                        className="object-cover"
+                      />
+                      <div 
+                        className="absolute inset-0"
+                        style={{ 
+                          background: `linear-gradient(180deg, transparent 0%, ${character.color}40 100%)`
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900">
+                      <div className="text-center">
+                        <Crown className="w-24 h-24 mx-auto mb-4" style={{ color: character.color }} />
+                        <span className="text-2xl font-bold" style={{ color: character.color }}>
+                          {typeof character.name === 'string' ? character.name : t(character.name)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div 
-                    className="absolute inset-0 opacity-20"
-                    style={{ 
-                      background: `radial-gradient(circle at center, ${character.color} 0%, transparent 70%)`
-                    }}
-                  />
+                  )}
                 </motion.div>
 
                 {/* Character Info */}
