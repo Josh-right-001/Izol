@@ -11,7 +11,8 @@ import {
   Menu, 
   X, 
   Palette,
-  Globe
+  Globe,
+  MoreVertical
 } from "lucide-react"
 import { useTheme, themes } from "@/lib/theme-context"
 import { useLanguage, languages } from "@/lib/language-context"
@@ -41,6 +42,7 @@ export function SiteHeader() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [languageOpen, setLanguageOpen] = useState(false)
   const [themeOpen, setThemeOpen] = useState(false)
+  const [optionsOpen, setOptionsOpen] = useState(false)
   const cartCount = totalItems; // Declare cartCount variable
 
   const navItems = [
@@ -395,6 +397,74 @@ export function SiteHeader() {
                   </motion.span>
                 )}
               </motion.button>
+
+              {/* More Options Menu */}
+              <div className="relative hidden sm:block">
+                <motion.button
+                  onClick={() => {
+                    setOptionsOpen(!optionsOpen)
+                    setLanguageOpen(false)
+                    setThemeOpen(false)
+                  }}
+                  className="p-2 rounded-full transition-colors"
+                  style={{ 
+                    color: currentTheme.colors.textSecondary,
+                    backgroundColor: optionsOpen ? `${currentTheme.colors.backgroundSecondary}80` : "transparent"
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <MoreVertical className="h-5 w-5" />
+                </motion.button>
+                <AnimatePresence>
+                  {optionsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 top-full mt-2 w-48 rounded-lg overflow-hidden"
+                      style={{ 
+                        backgroundColor: `${currentTheme.colors.backgroundSecondary}f0`,
+                        backdropFilter: "blur(20px)",
+                        border: `1px solid ${currentTheme.colors.accentPrimary}30`
+                      }}
+                    >
+                      <Link
+                        href="/about"
+                        onClick={() => setOptionsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors text-left hover:bg-white/5"
+                        style={{ color: currentTheme.colors.textSecondary }}
+                      >
+                        {t('nav_about')}
+                      </Link>
+                      <Link
+                        href="/press"
+                        onClick={() => setOptionsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors text-left hover:bg-white/5"
+                        style={{ color: currentTheme.colors.textSecondary }}
+                      >
+                        Presse
+                      </Link>
+                      <Link
+                        href="/faq"
+                        onClick={() => setOptionsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors text-left hover:bg-white/5"
+                        style={{ color: currentTheme.colors.textSecondary }}
+                      >
+                        FAQ
+                      </Link>
+                      <Link
+                        href="/contact"
+                        onClick={() => setOptionsOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 text-sm transition-colors text-left hover:bg-white/5"
+                        style={{ color: currentTheme.colors.textSecondary }}
+                      >
+                        {t('nav_contact')}
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {/* Mobile menu button */}
               <motion.button
