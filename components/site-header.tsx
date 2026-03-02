@@ -94,7 +94,8 @@ export function SiteHeader() {
                   alt="ISOLELE"
                   width={60}
                   height={60}
-                  className="object-contain max-w-[60px] max-h-[60px]"
+                  className="object-contain"
+                  style={{ width: 'auto', height: 'auto', maxWidth: '60px', maxHeight: '60px' }}
                   priority
                 />
                 <motion.div

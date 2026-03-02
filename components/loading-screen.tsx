@@ -95,7 +95,8 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 alt="ISOLELE"
                 width={240}
                 height={240}
-                className="w-48 h-48 sm:w-64 sm:h-64 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+                className="object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+                style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '280px' }}
                 priority
               />
             </motion.div>
