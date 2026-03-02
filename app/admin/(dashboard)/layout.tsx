@@ -12,6 +12,7 @@ import { SaveProvider } from "@/components/admin/save-progress"
 
 const navItems = [
   { icon: LayoutDashboard, label: "Tableau de bord", href: "/admin" },
+  { icon: Settings, label: "Controle du Site", href: "/admin/site-controller" },
   { icon: FileText, label: "Actualites", href: "/admin/news" },
   { icon: Users, label: "Personnages", href: "/admin/characters" },
   { icon: ShoppingBag, label: "Boutique", href: "/admin/shop" },
