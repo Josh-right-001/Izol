@@ -538,58 +538,59 @@ export function SiteHeader() {
                       {t(item.key)}
                     </Link>
                   ))}
-                
-                {/* Mobile Language & Theme */}
-                <div className="mt-6 space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => setLanguage(lang.code)}
-                        className={cn(
-                          "px-3 py-2 rounded-lg text-sm",
-                          currentLanguage.code === lang.code && "ring-2"
-                        )}
-                        style={{ 
-                          backgroundColor: currentTheme.colors.backgroundSecondary,
-                          color: currentTheme.colors.textSecondary,
-                          ringColor: currentTheme.colors.accentPrimary
-                        }}
-                      >
-                        {lang.code.toUpperCase()}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {themes.map((theme) => (
-                      <button
-                        key={theme.id}
-                        onClick={() => setTheme(theme.id)}
-                        className={cn(
-                          "p-2 rounded-lg",
-                          currentTheme.id === theme.id && "ring-2"
-                        )}
-                        style={{ 
-                          backgroundColor: theme.colors.background,
-                          ringColor: theme.colors.accentPrimary
-                        }}
-                      >
-                        <div className="flex gap-1">
-                          <div 
-                            className="h-4 w-4 rounded-full"
-                            style={{ backgroundColor: theme.colors.accentPrimary }}
-                          />
-                          <div 
-                            className="h-4 w-4 rounded-full"
-                            style={{ backgroundColor: theme.colors.accentSecondary }}
-                          />
-                        </div>
-                      </button>
-                    ))}
+                  
+                  {/* Mobile Language & Theme */}
+                  <div className="mt-6 space-y-4">
+                    <div className="flex flex-wrap gap-2">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => setLanguage(lang.code)}
+                          className={cn(
+                            "px-3 py-2 rounded-lg text-sm",
+                            currentLanguage.code === lang.code && "ring-2"
+                          )}
+                          style={{ 
+                            backgroundColor: currentTheme.colors.backgroundSecondary,
+                            color: currentTheme.colors.textSecondary,
+                            ringColor: currentTheme.colors.accentPrimary
+                          }}
+                        >
+                          {lang.code.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {themes.map((theme) => (
+                        <button
+                          key={theme.id}
+                          onClick={() => setTheme(theme.id)}
+                          className={cn(
+                            "p-2 rounded-lg",
+                            currentTheme.id === theme.id && "ring-2"
+                          )}
+                          style={{ 
+                            backgroundColor: theme.colors.background,
+                            ringColor: theme.colors.accentPrimary
+                          }}
+                        >
+                          <div className="flex gap-1">
+                            <div 
+                              className="h-4 w-4 rounded-full"
+                              style={{ backgroundColor: theme.colors.accentPrimary }}
+                            />
+                            <div 
+                              className="h-4 w-4 rounded-full"
+                              style={{ backgroundColor: theme.colors.accentSecondary }}
+                            />
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
