@@ -470,8 +470,12 @@ export function SiteHeader() {
               {/* Mobile menu button */}
               <motion.button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-full transition-colors"
-                style={{ color: currentTheme.colors.textSecondary }}
+                className="lg:hidden p-2 rounded-lg transition-all"
+                style={{ 
+                  color: currentTheme.colors.textSecondary,
+                  backgroundColor: mobileMenuOpen ? `${currentTheme.colors.accentPrimary}20` : 'transparent',
+                  border: mobileMenuOpen ? `1px solid ${currentTheme.colors.accentPrimary}30` : 'none'
+                }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -484,30 +488,56 @@ export function SiteHeader() {
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-y-0 right-0 w-4/5 max-w-sm lg:hidden overflow-y-auto"
-              style={{ 
-                backgroundColor: currentTheme.colors.background,
-                borderLeft: `1px solid ${currentTheme.colors.accentPrimary}30`
-              }}
-            >
-              <div className="p-6 pt-24">
-                {navItems.map((item) => (
-                  <div key={item.key} className="border-b" style={{ borderColor: `${currentTheme.colors.accentPrimary}20` }}>
+            <>
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setMobileMenuOpen(false)}
+                className="fixed inset-0 lg:hidden z-40"
+                style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+              />
+              
+              {/* Menu Panel */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="fixed inset-y-0 right-0 w-4/5 max-w-sm lg:hidden overflow-y-auto z-50"
+                style={{ 
+                  backgroundColor: currentTheme.colors.background,
+                  borderLeft: `1px solid ${currentTheme.colors.accentPrimary}30`
+                }}
+              >
+                <div className="p-4 flex items-center justify-between border-b" style={{ borderColor: `${currentTheme.colors.accentPrimary}20` }}>
+                  <h2 className="text-lg font-bold" style={{ color: currentTheme.colors.textPrimary }}>Menu</h2>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 rounded-lg transition-all"
+                    style={{ color: currentTheme.colors.textSecondary }}
+                  >
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+
+                <div className="p-4 space-y-2">
+                  {navItems.map((item) => (
                     <Link
+                      key={item.key}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block py-4 text-lg font-medium"
-                      style={{ color: currentTheme.colors.textPrimary }}
+                      className="block px-4 py-3 rounded-lg font-medium transition-all text-center"
+                      style={{ 
+                        color: currentTheme.colors.textPrimary,
+                        backgroundColor: item.href === "/" ? `${currentTheme.colors.accentPrimary}20` : 'transparent',
+                        border: item.href === "/" ? `1px solid ${currentTheme.colors.accentPrimary}` : 'none'
+                      }}
                     >
                       {t(item.key)}
                     </Link>
-                  </div>
-                ))}
+                  ))}
                 
                 {/* Mobile Language & Theme */}
                 <div className="mt-6 space-y-4">

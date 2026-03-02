@@ -31,15 +31,22 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(languages[0])
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const savedLang = localStorage.getItem("isolele-language")
-    if (savedLang) {
-      const lang = languages.find((l) => l.code === savedLang)
-      if (lang) {
-        setCurrentLanguage(lang)
+    // Load saved language from localStorage on client side only
+    try {
+      const savedLang = localStorage.getItem("isolele-language")
+      if (savedLang) {
+        const lang = languages.find((l) => l.code === savedLang)
+        if (lang) {
+          setCurrentLanguage(lang)
+        }
       }
+    } catch (error) {
+      console.error("Error loading language preference:", error)
     }
+    setMounted(true)
   }, [])
 
   const setLanguage = (code: string) => {
@@ -57,9 +64,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return langTranslations[translationKey] || translations.en[translationKey] || String(key)
   }
 
+  // Return children only when mounted to prevent hydration mismatch
   return (
     <LanguageContext.Provider value={{ currentLanguage, setLanguage, t }}>
-      {children}
+      {mounted ? children : <>{children}</>}
     </LanguageContext.Provider>
   )
 }

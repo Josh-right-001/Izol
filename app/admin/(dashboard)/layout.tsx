@@ -64,11 +64,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Logo */}
             <div className="p-4 flex items-center gap-3 border-b border-[#C9A542]/20">
               <NextImage
-                src="/images/isolele-logo.png"
+                src="/isolele-logo-transparent.png"
                 alt="ISOLELE"
                 width={40}
                 height={40}
                 className="object-contain flex-shrink-0"
+                style={{ width: 'auto', height: 'auto' }}
               />
               <AnimatePresence>
                 {sidebarOpen && (
@@ -127,7 +128,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 >
                   <div className="p-4 flex items-center justify-between border-b border-[#C9A542]/20">
                     <div className="flex items-center gap-3">
-                      <NextImage src="/images/isolele-logo.png" alt="ISOLELE" width={40} height={40} className="object-contain" />
+                      <NextImage src="/isolele-logo-transparent.png" alt="ISOLELE" width={40} height={40} className="object-contain" style={{ width: 'auto', height: 'auto' }} />
                       <div>
                         <h1 className="text-lg font-bold text-white tracking-wider">ISOLELE</h1>
                         <p className="text-xs text-gray-400">Administration</p>
