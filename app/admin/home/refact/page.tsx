@@ -48,6 +48,7 @@ const PAGES_STRUCTURE: PageData[] = [
 
 export default function RefactPage() {
   const [selectedPage, setSelectedPage] = useState<PageData | null>(PAGES_STRUCTURE[0])
+  const [activeTab, setActiveTab] = useState<'refact' | 'display'>('refact')
   const [mode, setMode] = useState<'view' | 'edit'>('view')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -111,9 +112,44 @@ export default function RefactPage() {
 
   return (
     <div className="min-h-screen space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Refact - Éditeur Avancé</h1>
-        <p className="text-gray-400">Gérez et prévisualisez toutes les pages publiques</p>
+      {/* Header with logo */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Image
+            src="/isolele-logo-transparent.png"
+            alt="ISOLELE"
+            width={40}
+            height={40}
+            className="object-contain"
+            style={{ width: 'auto', height: 'auto' }}
+          />
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-1">Refact - Éditeur Avancé</h1>
+            <p className="text-gray-400">Gérez et prévisualisez toutes les pages publiques</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Switcher */}
+      <div className="flex gap-2 border-b border-gray-700">
+        <button
+          onClick={() => setActiveTab('refact')}
+          className={`px-6 py-3 font-medium transition-all border-b-2 ${
+            activeTab === 'refact'
+              ? 'text-white border-b-yellow-500'
+              : 'text-gray-400 border-b-transparent hover:text-white'
+          }`}
+        >
+          Refact Editor
+        </button>
+        <Link href="/admin/home/display-refact">
+          <button
+            onClick={() => setActiveTab('display')}
+            className="px-6 py-3 font-medium transition-all border-b-2 text-gray-400 border-b-transparent hover:text-white"
+          >
+            Display Refact (Live Preview)
+          </button>
+        </Link>
       </div>
 
       {/* Main Layout */}
