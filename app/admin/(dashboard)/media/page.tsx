@@ -43,8 +43,11 @@ export default function MediaManagementPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [filterType, setFilterType] = useState<string | null>(null)
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const [showAnimationModal, setShowAnimationModal] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null)
+  const [animationPreset, setAnimationPreset] = useState("fade")
+  const [mediaSaved, setMediaSaved] = useState(false)
 
   const filteredItems = mediaItems.filter((item) => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -77,7 +80,7 @@ export default function MediaManagementPage() {
           <h1 className="text-2xl font-bold text-white">Mediatheque</h1>
           <p className="text-gray-400">Gerez vos images, videos et fichiers</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <motion.button
             onClick={() => setShowUploadModal(true)}
             className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-[#0F1524] bg-[#C9A542]"
@@ -93,6 +96,15 @@ export default function MediaManagementPage() {
           >
             <FolderPlus className="w-5 h-5" />
             Nouveau dossier
+          </motion.button>
+          <motion.button
+            onClick={() => setShowAnimationModal(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-white border border-[#C9A542]/50 hover:bg-[#C9A542]/10 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Film className="w-5 h-5" />
+            Animations
           </motion.button>
         </div>
       </div>
@@ -434,6 +446,101 @@ export default function MediaManagementPage() {
                     Supprimer
                   </button>
                 </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Animation Modal */}
+      <AnimatePresence>
+        {showAnimationModal && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 z-40"
+              onClick={() => setShowAnimationModal(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-50 rounded-2xl p-6"
+              style={{
+                backgroundColor: "#0a0f1a",
+                border: "1px solid rgba(201, 165, 66, 0.3)",
+              }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-white">Presets d'Animation Media</h2>
+                <button
+                  onClick={() => setShowAnimationModal(false)}
+                  className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                {[
+                  { id: "fade", label: "Fade In", icon: "✨" },
+                  { id: "slide", label: "Slide In", icon: "→" },
+                  { id: "zoom", label: "Zoom In", icon: "🔍" },
+                  { id: "bounce", label: "Bounce", icon: "⛹️" },
+                  { id: "flip", label: "Flip", icon: "🔄" },
+                  { id: "rotate", label: "Rotate", icon: "↻" },
+                ].map((preset) => (
+                  <motion.button
+                    key={preset.id}
+                    onClick={() => setAnimationPreset(preset.id)}
+                    className={`p-4 rounded-lg font-medium transition-all text-center ${
+                      animationPreset === preset.id
+                        ? "bg-[#C9A542] text-[#0F1524]"
+                        : "bg-[#C9A542]/20 text-white border border-[#C9A542]/30 hover:border-[#C9A542]"
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="text-2xl mb-2">{preset.icon}</div>
+                    <div className="text-sm">{preset.label}</div>
+                  </motion.button>
+                ))}
+              </div>
+
+              <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: "rgba(201, 165, 66, 0.1)" }}>
+                <p className="text-sm text-gray-300">
+                  <strong>Preset selectionne:</strong> {animationPreset}
+                </p>
+                <p className="text-xs text-gray-400 mt-2">
+                  Cet preset s'appliquera à tous les nouveaux medias telecharges jusqu'à ce que vous le changiez.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAnimationModal(false)}
+                  className="px-4 py-2 rounded-lg text-gray-400 hover:text-white transition-colors"
+                >
+                  Annuler
+                </button>
+                <motion.button
+                  onClick={() => {
+                    setMediaSaved(true)
+                    setTimeout(() => setMediaSaved(false), 2000)
+                    setShowAnimationModal(false)
+                  }}
+                  className="px-6 py-2 rounded-lg font-medium transition-all"
+                  style={{
+                    backgroundColor: mediaSaved ? "#4ade80" : "#C9A542",
+                    color: "#0F1524",
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {mediaSaved ? "✓ Sauvegarde!" : "Appliquer"}
+                </motion.button>
               </div>
             </motion.div>
           </>

@@ -30,12 +30,11 @@ export function HeroSection() {
           backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4045.PNG-fwlhSsKKCRKl4cr6In7R0JclVOsNDL.jpeg')",
         }}
       />
-      {/* Ultra-thin 2% opacity overlay */}
+      {/* Radial gradient overlay - transparent center, dark edges for visibility */}
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(135deg, ${currentTheme.colors.background}05 0%, ${currentTheme.colors.backgroundSecondary}03 50%, ${currentTheme.colors.background}05 100%)`,
-          opacity: 0.02,
+          background: `radial-gradient(circle at center, transparent 0%, ${currentTheme.colors.background}02 40%, ${currentTheme.colors.backgroundSecondary}08 100%)`,
         }}
       />
 

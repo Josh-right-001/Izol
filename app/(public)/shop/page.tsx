@@ -6,7 +6,7 @@ import { useTheme } from "@/lib/theme-context"
 import { useLanguage } from "@/lib/language-context"
 import Image from "next/image"
 import Link from "next/link"
-import { ShoppingCart, Search, Filter, X, Star, Truck, Shield, CreditCard } from "lucide-react"
+import { ShoppingCart, Search, Filter, X, Star, Truck, Shield, CreditCard, Tag, Users, Info } from "lucide-react"
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld"
 
 interface Product {
@@ -141,6 +141,83 @@ const products: Product[] = [
     rating: 4.95,
     reviews: 112,
     link: "/shop/apparel/sunglasses",
+    inStock: true,
+  },
+  {
+    id: "zaire-figure",
+    title: "ZAIRE Character Figure",
+    price: 59.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0013-uGz1WsLuJsQwaeoa9FGYTgKiIf9rZA.jpg",
+    category: "collectibles",
+    rating: 4.9,
+    reviews: 78,
+    link: "/shop/collectibles/zaire",
+    inStock: true,
+  },
+  {
+    id: "kimoya-collector",
+    title: "KIMOYA Premium Collectible",
+    price: 79.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0010-XZRyXzQwD9znnsx8mxHbTBRNzjmtHm.jpg",
+    category: "collectibles",
+    rating: 5.0,
+    reviews: 92,
+    link: "/shop/collectibles/kimoya",
+    inStock: true,
+  },
+  {
+    id: "zattar-artifact",
+    title: "ZATTAR The Blood Architect",
+    price: 89.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0011-UqXFP6gWl4Khrn6sXFwj5ZtTTbvkiP.jpg",
+    category: "collectibles",
+    rating: 4.85,
+    reviews: 65,
+    link: "/shop/collectibles/zattar",
+    inStock: true,
+  },
+  {
+    id: "njoko-twins-set",
+    title: "NJOKO Twins Limited Set",
+    price: 149.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0012-HZAFyQIAHjVxMaTAyLn0TKRpvB9DPc.jpg",
+    category: "collectibles",
+    rating: 4.98,
+    reviews: 156,
+    link: "/shop/collectibles/njoko",
+    inStock: true,
+  },
+  {
+    id: "imvula-queen-statue",
+    title: "QUEEN IMVULA Statue",
+    price: 199.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0015-ixHtpvXFjUsQoB2wP6rqZlYnT62ir7.jpg",
+    category: "collectibles",
+    rating: 5.0,
+    reviews: 203,
+    link: "/shop/collectibles/imvula",
+    inStock: true,
+  },
+  {
+    id: "nzingaa-card",
+    title: "QUEEN NZINGAA Character Card",
+    price: 24.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0048-7CheMeB1hkUSenuBOY1qGIjp7O6y9I.jpg",
+    category: "collectibles",
+    rating: 4.7,
+    reviews: 34,
+    link: "/shop/collectibles/card-nzingaa",
+    inStock: true,
+  },
+  {
+    id: "royality-creator",
+    title: "ROYALITY Creator Figurine",
+    price: 79.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0036-AyEk2JKc2qXJ6XeB4OhTpU8lXY3pzZ.jpg",
+    category: "collectibles",
+    rating: 4.92,
+    reviews: 128,
+    link: "/shop/collectibles/royality",
     inStock: true,
   },
 ]
@@ -471,62 +548,191 @@ export default function ShopPage() {
           </motion.div>
         </div>
 
-        {/* Floating Bottom Navigation Bar */}
+        {/* Professional Floating Bottom Navigation Bar - 5 Icon Buttons */}
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="fixed bottom-0 left-0 right-0 flex justify-center items-center pb-6 pointer-events-none"
+          className="fixed bottom-0 left-0 right-0 flex justify-center items-center pb-6 pointer-events-none z-50"
         >
           <div
-            className="flex gap-4 px-6 py-4 rounded-full pointer-events-auto"
+            className="flex gap-3 px-4 py-3 rounded-full pointer-events-auto backdrop-blur-md"
             style={{
-              backgroundColor: currentTheme.colors.backgroundSecondary,
+              backgroundColor: `${currentTheme.colors.backgroundSecondary}f0`,
               border: `2px solid ${currentTheme.colors.accentPrimary}`,
-              boxShadow: `0 8px 32px ${currentTheme.colors.accentPrimary}40`,
+              boxShadow: `0 12px 40px ${currentTheme.colors.accentPrimary}30`,
             }}
           >
+            {/* Button 1: Shop All */}
             <Link href="/shop">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
-                style={{
-                  backgroundColor: `${currentTheme.colors.accentPrimary}20`,
-                  color: currentTheme.colors.accentPrimary,
-                }}
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
               >
-                <ShoppingCart size={20} />
-                Shop All
-              </motion.button>
+                <button
+                  className="p-3 rounded-lg transition-all duration-300"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
+                  }}
+                  title="Shop All"
+                >
+                  <ShoppingCart size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    Shop All
+                  </div>
+                </div>
+              </motion.div>
             </Link>
 
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setSelectedCategory("apparel")}
-              className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
-              style={{
-                backgroundColor: selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}20`,
-                color: selectedCategory === "apparel" ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
-              }}
+            {/* Button 2: Apparel Filter */}
+            <motion.div
+              className="group relative"
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
             >
-              Apparel
-            </motion.button>
-
-            <Link href="/cart">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
+              <button
+                onClick={() => setSelectedCategory("apparel")}
+                className="p-3 rounded-lg transition-all duration-300"
                 style={{
-                  backgroundColor: currentTheme.colors.accentPrimary,
-                  color: currentTheme.colors.background,
+                  backgroundColor: selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}15`,
+                  color: selectedCategory === "apparel" ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
+                  border: `1px solid ${selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : currentTheme.colors.accentPrimary}30`,
                 }}
+                title="Apparel"
               >
-                <ShoppingCart size={20} />
-                Bag {cart.length > 0 && `(${cart.length})`}
-              </motion.button>
+                <Tag size={24} />
+              </button>
+              <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div
+                  className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
+                  style={{
+                    backgroundColor: currentTheme.colors.accentPrimary,
+                    color: currentTheme.colors.background,
+                  }}
+                >
+                  Apparel
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Button 3: Characters */}
+            <Link href="/characters">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-lg transition-all duration-300"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
+                  }}
+                  title="Characters"
+                >
+                  <Users size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    Characters
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Button 4: About */}
+            <Link href="/about">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-lg transition-all duration-300"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
+                  }}
+                  title="About"
+                >
+                  <Info size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    About
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Button 5: Cart with Badge */}
+            <Link href="/cart">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-lg transition-all duration-300 relative"
+                  style={{
+                    backgroundColor: currentTheme.colors.accentPrimary,
+                    color: currentTheme.colors.background,
+                    border: `1px solid ${currentTheme.colors.accentPrimary}`,
+                  }}
+                  title="Cart"
+                >
+                  <ShoppingCart size={24} />
+                  {cart.length > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full font-bold text-sm"
+                      style={{
+                        backgroundColor: currentTheme.colors.accentSecondary || '#ff4444',
+                        color: currentTheme.colors.background,
+                      }}
+                    >
+                      {cart.length}
+                    </motion.span>
+                  )}
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    Cart {cart.length > 0 && `(${cart.length})`}
+                  </div>
+                </div>
+              </motion.div>
             </Link>
           </div>
         </motion.div>

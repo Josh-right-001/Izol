@@ -11,7 +11,7 @@ const characters = [
   {
     id: "zaire",
     name: "ZAIRE",
-    image: "/characters/zaire-official.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0013-uGz1WsLuJsQwaeoa9FGYTgKiIf9rZA.jpg",
     title: { en: "Prince of Kongo", fr: "Prince du Kongo" },
     description: {
       en: "Son of thunder and royalty, chosen by the Necklace of Destiny. Zaire must balance his privileged life with the demands of a hero's calling.",
@@ -28,7 +28,7 @@ const characters = [
   {
     id: "kimoya",
     name: "KIMOYA",
-    image: "/characters/royal-court.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0010-XZRyXzQwD9znnsx8mxHbTBRNzjmtHm.jpg",
     title: { en: "The Reborn Kandake", fr: "La Kandake Renaissante" },
     description: {
       en: "Heir of warrior queens, shadow hunter and protector of the Ethercobalt. She carries the power of Nubian gods in her veins.",
@@ -45,7 +45,7 @@ const characters = [
   {
     id: "zattar",
     name: "ZATTAR",
-    image: "/characters/bakala-baku.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0011-UqXFP6gWl4Khrn6sXFwj5ZtTTbvkiP.jpg",
     title: { en: "The Blood Architect", fr: "L'Architecte de Sang" },
     description: {
       en: "Cursed genius of forbidden technology. Master of techno-mystical constructs that blur the line between science and ancient magic.",
@@ -62,7 +62,7 @@ const characters = [
   {
     id: "jumeaux-njoko",
     name: { en: "THE NJOKO TWINS", fr: "LES JUMEAUX NJOKO" },
-    image: "/characters/cast-ensemble.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0012-HZAFyQIAHjVxMaTAyLn0TKRpvB9DPc.jpg",
     title: { en: "Orphan Prophets", fr: "Prophètes Orphelins" },
     description: {
       en: "Orphan prophets who speak with rivers and stars. Their dual nature connects the physical realm to the spirit world.",
@@ -79,7 +79,7 @@ const characters = [
   {
     id: "reine-imvula",
     name: { en: "QUEEN IMVULA", fr: "REINE IMVULA" },
-    image: "/characters/zariko-tabani.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0015-ixHtpvXFjUsQoB2wP6rqZlYnT62ir7.jpg",
     title: { en: "Guardian of Sky Beasts", fr: "Gardienne des Bêtes du Ciel" },
     description: {
       en: "Sovereign of Stormglass, guardian of the celestial creatures that patrol the boundaries between worlds.",
