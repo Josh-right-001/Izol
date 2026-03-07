@@ -33,7 +33,7 @@ export function HeroSection() {
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(135deg, ${currentTheme.colors.background}e6 0%, ${currentTheme.colors.backgroundSecondary}cc 50%, ${currentTheme.colors.background}e6 100%)`,
+          background: `linear-gradient(135deg, ${currentTheme.colors.background}05 0%, ${currentTheme.colors.backgroundSecondary}03 50%, ${currentTheme.colors.background}05 100%)`,
         }}
       />
 
@@ -88,7 +88,7 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1 }}
-              className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+              className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 sm:py-20 lg:py-0"
             >
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -96,7 +96,7 @@ export function HeroSection() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <h1
-                  className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-wider mb-4"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-wider mb-4"
                   style={{
                     color: currentTheme.colors.textPrimary,
                     textShadow: `0 0 40px ${currentTheme.colors.accentPrimary}40`,
@@ -105,7 +105,7 @@ export function HeroSection() {
                   ZAIIRE
                 </h1>
                 <p
-                  className="text-2xl sm:text-3xl font-bold tracking-widest mb-2"
+                  className="text-lg sm:text-2xl lg:text-3xl font-bold tracking-widest mb-2"
                   style={{ color: currentTheme.colors.accentPrimary }}
                 >
                   PRINCE DU KONGO
@@ -116,7 +116,7 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl font-semibold tracking-wide mb-6"
+                className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-wide mb-6"
                 style={{ color: currentTheme.colors.textSecondary }}
               >
                 Le Collier de la Destinee

@@ -1,94 +1,142 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useTheme } from "@/lib/theme-context"
 import { useLanguage } from "@/lib/language-context"
-import { ShoppingCart, Star, Truck, Shield, CreditCard } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld"
 import Image from "next/image"
+import Link from "next/link"
+import { ShoppingCart, Search, Filter, X, Star, Truck, Shield, CreditCard } from "lucide-react"
+import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld"
 
-const products = [
+interface Product {
+  id: string
+  title: string
+  price: number
+  image: string
+  category: string
+  rating: number
+  reviews: number
+  link: string
+  inStock: boolean
+}
+
+const products: Product[] = [
   {
-    id: "zaire-comic-vol1",
-    name: { en: "Zaiire: Prince of Kongo - Vol.1", fr: "Zaiire: Prince du Kongo - Vol.1" },
-    subtitle: { en: "Necklace of Destiny", fr: "Le Collier de la Destinee" },
-    price: 26.99,
-    originalPrice: 99.99,
-    description: {
-      en: "An uplifting action-packed adventure that echoes the Spirit of the Lion King and Black Panther, while offering young readers a Celebration of Heritage, Courage and Self-Discovery.",
-      fr: "Une aventure palpitante et edifiante qui fait echo a l'esprit du Roi Lion et de Black Panther, tout en offrant aux jeunes lecteurs une celebration de l'heritage, du courage et de la decouverte de soi."
-    },
-    badge: { en: "PRE-ORDER", fr: "PRE-COMMANDE" },
+    id: "zaiire",
+    title: "ZAIIRE - PRINCE OF KONGO",
+    price: 24.99,
+    image: "/characters/zaire-official.jpg",
     category: "comics",
+    rating: 4.8,
+    reviews: 156,
+    link: "/books/zaiire",
     inStock: true,
-    rating: 5,
-    reviews: 127
   },
   {
-    id: "kimoya-comic-vol1",
-    name: { en: "Kimoya: The Reborn Kandake", fr: "Kimoya: La Kandake Renaissante" },
-    subtitle: { en: "Shadow Hunter Origins", fr: "Origines de la Chasseuse d'Ombres" },
-    price: 24.99,
-    originalPrice: null,
-    description: {
-      en: "The daughter of warrior queens returns as Shadow Hunter, protector of the Ethercobalt and heir to the Nubian throne.",
-      fr: "La fille des reines guerrieres revient en tant que Chasseuse d'Ombres, protectrice de l'Ethercobalt et heritiere du trone nubien."
-    },
-    badge: { en: "COMING SOON", fr: "BIENTOT" },
+    id: "kimoya",
+    title: "KIMOYA - THE RISING KANDAKE",
+    price: 26.99,
+    image: "/books/mokele-crowned-by-streets.jpg",
     category: "comics",
-    inStock: false,
-    rating: 0,
-    reviews: 0
+    rating: 4.9,
+    reviews: 203,
+    link: "/books/kimoya",
+    inStock: true,
+  },
+  {
+    id: "zattar",
+    title: "ZATTAR - THE BLOOD ARCHITECT",
+    price: 27.99,
+    image: "/characters/bakala-baku.jpg",
+    category: "comics",
+    rating: 4.7,
+    reviews: 142,
+    link: "/books/zattar",
+    inStock: true,
+  },
+  {
+    id: "njoko",
+    title: "THE NJOKO TWINS - BOUND BY DESTINY",
+    price: 25.99,
+    image: "/characters/cast-ensemble.jpg",
+    category: "comics",
+    rating: 4.8,
+    reviews: 178,
+    link: "/books/njoko",
+    inStock: true,
+  },
+  {
+    id: "imvula",
+    title: "QUEEN IMVULA - THE STORM MAIDEN",
+    price: 26.99,
+    image: "/characters/zariko-tabani.jpg",
+    category: "comics",
+    rating: 4.9,
+    reviews: 215,
+    link: "/books/imvula",
+    inStock: true,
   },
   {
     id: "isolele-tshirt",
-    name: { en: "ISOLELE Logo T-Shirt", fr: "T-Shirt Logo ISOLELE" },
-    subtitle: { en: "Premium Cotton", fr: "Coton Premium" },
+    title: "ISOLELE Logo T-Shirt",
     price: 34.99,
-    originalPrice: null,
-    description: {
-      en: "High-quality cotton t-shirt featuring the iconic ISOLELE emblem. Available in black with gold print.",
-      fr: "T-shirt en coton de haute qualite avec l'embleme iconique ISOLELE. Disponible en noir avec impression doree."
-    },
-    badge: null,
+    image: "/isolele-logo-transparent.png",
     category: "apparel",
-    inStock: true,
     rating: 4.8,
-    reviews: 45
+    reviews: 45,
+    link: "/shop/apparel/tshirt",
+    inStock: true,
   },
   {
     id: "kongo-poster",
-    name: { en: "Kingdom of Kongo Poster", fr: "Poster Royaume du Kongo" },
-    subtitle: { en: "Limited Edition Art Print", fr: "Impression d'Art Edition Limitee" },
+    title: "Kingdom of Kongo Poster",
     price: 19.99,
-    originalPrice: null,
-    description: {
-      en: "Stunning artwork depicting the mythical Kingdom of Kongo. High-quality print on premium paper.",
-      fr: "Oeuvre d'art epoustouflante representant le mythique Royaume du Kongo. Impression de haute qualite sur papier premium."
-    },
-    badge: { en: "LIMITED", fr: "LIMITE" },
+    image: "/isolele-logo-transparent.png",
     category: "art",
-    inStock: true,
     rating: 4.9,
-    reviews: 32
-  }
+    reviews: 32,
+    link: "/shop/art/poster",
+    inStock: true,
+  },
+  {
+    id: "character-collection",
+    title: "ISOLELE Character Collection",
+    price: 49.99,
+    image: "/characters/cast-ensemble.jpg",
+    category: "collectibles",
+    rating: 5.0,
+    reviews: 87,
+    link: "/shop/collectibles/characters",
+    inStock: true,
+  },
 ]
 
 const categories = [
-  { id: "all", name: { en: "All Products", fr: "Tous les Produits" } },
-  { id: "comics", name: { en: "Comics", fr: "Bandes Dessinees" } },
-  { id: "apparel", name: { en: "Apparel", fr: "Vetements" } },
-  { id: "art", name: { en: "Art & Prints", fr: "Art & Impressions" } }
+  { id: "all", name: "All Products" },
+  { id: "comics", name: "Comics & Books" },
+  { id: "apparel", name: "Apparel" },
+  { id: "art", name: "Art & Prints" },
+  { id: "collectibles", name: "Collectibles" },
 ]
 
 export default function ShopPage() {
-  const { currentLanguage } = useLanguage()
-  const lang = currentLanguage.code
-  const language = currentLanguage.code // Declare the language variable
-  const t = (obj: { en: string; fr: string } | null) => {
-    if (!obj) return null
-    return obj[lang as 'en' | 'fr'] || obj.en
-  }
+  const { currentTheme } = useTheme()
+  const { t, currentLanguage } = useLanguage()
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showFilters, setShowFilters] = useState(false)
+  const [cart, setCart] = useState<string[]>([])
+
+  const filtered = products.filter((product) => {
+    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory
+    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
+
+  const addToCart = useCallback((productId: string) => {
+    setCart((prev) => [...prev, productId])
+  }, [])
 
   return (
     <>
@@ -97,30 +145,26 @@ export default function ShopPage() {
         { name: "Shop", url: "https://isolele.com/shop" }
       ]} />
       
-      {/* Add product structured data for main product */}
       <ProductJsonLd
-        name="Zaiire: Prince of Kongo - Necklace of Destiny"
-        description="An uplifting action-packed adventure that echoes the Spirit of the Lion King and Black Panther"
-        price={26.99}
-        image="/images/isolele-logo.jpg"
-        availability="PreOrder"
+        name="ZAIIRE - PRINCE OF KONGO"
+        description="A thrilling and edifying adventure echoing the spirit of The Lion King and Black Panther"
+        price={24.99}
+        image="/characters/zaire-official.jpg"
+        availability="InStock"
       />
       
-      <main className="min-h-screen py-20" style={{ backgroundColor: 'var(--isolele-bg)' }}>
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <main style={{ background: currentTheme.colors.background, color: currentTheme.colors.textPrimary }} className="min-h-screen py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.6 }}
+            className="mb-12"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6" style={{ color: 'var(--isolele-accent)' }}>
-              {lang === 'fr' ? "BOUTIQUE" : "SHOP"}
-            </h1>
-            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'var(--isolele-text-secondary)' }}>
-              {lang === 'fr'
-                ? "Decouvrez notre collection de bandes dessinees, vetements et articles exclusifs de l'univers Isolele."
-                : "Discover our collection of comics, apparel and exclusive items from the Isolele universe."}
+            <h1 className="text-4xl sm:text-5xl font-black tracking-wider mb-4">ISOLELE SHOP</h1>
+            <p style={{ color: currentTheme.colors.textSecondary }} className="text-lg">
+              Discover our collection of African mythology comics and merchandise
             </p>
           </motion.div>
 
@@ -128,182 +172,268 @@ export default function ShopPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-8 mb-16"
+            transition={{ delay: 0.1 }}
+            className="flex flex-wrap justify-center gap-8 mb-12"
           >
             {[
-              { icon: Truck, text: { en: "Free Shipping 50+", fr: "Livraison Gratuite 50+" } },
-              { icon: Shield, text: { en: "Secure Payment", fr: "Paiement Securise" } },
-              { icon: CreditCard, text: { en: "Easy Returns", fr: "Retours Faciles" } }
+              { icon: Truck, text: "Free Shipping 50+" },
+              { icon: Shield, text: "Secure Payment" },
+              { icon: CreditCard, text: "Easy Returns" }
             ].map((badge, index) => (
-              <div key={index} className="flex items-center gap-2" style={{ color: 'var(--isolele-text-secondary)' }}>
-                <badge.icon className="w-5 h-5" style={{ color: 'var(--isolele-accent)' }} />
-                <span>{t(badge.text)}</span>
+              <div key={index} className="flex items-center gap-2" style={{ color: currentTheme.colors.textSecondary }}>
+                <badge.icon size={20} style={{ color: currentTheme.colors.accentPrimary }} />
+                <span>{badge.text}</span>
               </div>
             ))}
           </motion.div>
 
-          {/* Categories */}
+          {/* Controls */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col md:flex-row gap-4 mb-12"
+          >
+            {/* Search */}
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg pr-10"
+                style={{
+                  backgroundColor: `${currentTheme.colors.accentPrimary}10`,
+                  color: currentTheme.colors.textPrimary,
+                  border: `1px solid ${currentTheme.colors.accentPrimary}30`,
+                }}
+              />
+              <Search
+                size={20}
+                className="absolute right-4 top-1/2 -translate-y-1/2"
+                style={{ color: currentTheme.colors.textSecondary }}
+              />
+            </div>
+
+            {/* Filter Button */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-6 py-3 rounded-lg font-bold md:hidden"
+              style={{
+                backgroundColor: `${currentTheme.colors.accentPrimary}20`,
+                color: currentTheme.colors.accentPrimary,
+              }}
+            >
+              <Filter size={20} />
+              Filters
+            </button>
+
+            {/* Cart Button */}
+            <Link href="/cart">
+              <button
+                className="relative px-6 py-3 rounded-lg font-bold whitespace-nowrap"
+                style={{
+                  backgroundColor: currentTheme.colors.accentPrimary,
+                  color: currentTheme.colors.background,
+                }}
+              >
+                <ShoppingCart size={20} className="inline mr-2" />
+                Cart {cart.length > 0 && `(${cart.length})`}
+              </button>
+            </Link>
+          </motion.div>
+
+          {/* Desktop Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="hidden md:flex gap-3 mb-12 flex-wrap"
           >
             {categories.map((category) => (
               <button
                 key={category.id}
-                className="px-6 py-2 rounded-full transition-all duration-300"
+                onClick={() => setSelectedCategory(category.id)}
+                className={`px-6 py-2 rounded-full font-bold transition-all ${
+                  selectedCategory === category.id ? "ring-2" : ""
+                }`}
                 style={{
-                  backgroundColor: category.id === 'all' ? 'var(--isolele-accent)' : 'var(--isolele-bg-secondary)',
-                  color: category.id === 'all' ? '#000' : 'var(--isolele-text)',
-                  border: '1px solid var(--isolele-accent)'
+                  backgroundColor: selectedCategory === category.id ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}10`,
+                  color: selectedCategory === category.id ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
                 }}
               >
-                {t(category.name)}
+                {category.name}
               </button>
             ))}
           </motion.div>
 
-          {/* Products Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.map((product, index) => (
+          {/* Mobile Filters */}
+          <AnimatePresence>
+            {showFilters && (
               <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="rounded-2xl overflow-hidden"
-                style={{ 
-                  backgroundColor: 'var(--isolele-bg-secondary)',
-                  border: '1px solid rgba(212, 175, 55, 0.2)'
-                }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="md:hidden mb-8 p-4 rounded-lg"
+                style={{ backgroundColor: `${currentTheme.colors.accentPrimary}10` }}
               >
-                {/* Product Image */}
-                <div className="relative aspect-square">
-                  <div 
-                    className="absolute inset-0 flex items-center justify-center"
-                    style={{ backgroundColor: 'var(--isolele-bg)' }}
-                  >
-                    <Image
-                      src="/images/isolele-logo.jpg"
-                      alt={typeof product.name === 'string' ? product.name : (t(product.name) || '')}
-                      width={200}
-                      height={200}
-                      className="object-contain opacity-50"
-                    />
-                  </div>
-                  
-                  {t(product.badge) && (
-                    <span 
-                      className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold"
-                      style={{ backgroundColor: 'var(--isolele-accent)', color: '#000' }}
-                    >
-                      {t(product.badge)}
-                    </span>
-                  )}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-lg">Categories</h3>
+                  <button onClick={() => setShowFilters(false)}>
+                    <X size={20} />
+                  </button>
                 </div>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category.id}
+                      onClick={() => {
+                        setSelectedCategory(category.id)
+                        setShowFilters(false)
+                      }}
+                      className="px-4 py-2 rounded-full font-bold transition-all"
+                      style={{
+                        backgroundColor: selectedCategory === category.id ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}20`,
+                        color: selectedCategory === category.id ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
+                      }}
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-                {/* Product Info */}
-                <div className="p-6">
-                  <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--isolele-text)' }}>
-                    {t(product.name)}
-                  </h3>
-                  <p className="text-sm mb-3" style={{ color: 'var(--isolele-text-secondary)' }}>
-                    {t(product.subtitle)}
-                  </p>
+          {/* Products Grid */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((product, idx) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
+                  className="group rounded-lg overflow-hidden"
+                  style={{ backgroundColor: `${currentTheme.colors.accentPrimary}10` }}
+                >
+                  {/* Image */}
+                  <Link href={product.link}>
+                    <div className="relative w-full aspect-[2/3] overflow-hidden cursor-pointer">
+                      <Image
+                        src={product.image}
+                        alt={product.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  </Link>
 
-                  {/* Rating */}
-                  {product.rating > 0 && (
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="flex">
+                  {/* Info */}
+                  <div className="p-4">
+                    <Link href={product.link}>
+                      <h3 className="font-bold text-sm leading-tight group-hover:text-yellow-400 transition-colors cursor-pointer mb-2 line-clamp-2">
+                        {product.title}
+                      </h3>
+                    </Link>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-3">
+                      <div className="flex gap-0.5">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className="w-4 h-4"
-                            style={{ 
-                              color: i < Math.floor(product.rating) ? 'var(--isolele-accent)' : 'var(--isolele-bg)',
-                              fill: i < Math.floor(product.rating) ? 'var(--isolele-accent)' : 'transparent'
-                            }}
+                            size={12}
+                            fill={i < Math.floor(product.rating) ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}30`}
+                            color={currentTheme.colors.accentPrimary}
                           />
                         ))}
                       </div>
-                      <span className="text-xs" style={{ color: 'var(--isolele-text-secondary)' }}>
+                      <span style={{ color: currentTheme.colors.textSecondary }} className="text-xs">
                         ({product.reviews})
                       </span>
                     </div>
-                  )}
 
-                  {/* Price */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-2xl font-bold" style={{ color: 'var(--isolele-accent)' }}>
-                      ${product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-sm line-through" style={{ color: 'var(--isolele-text-secondary)' }}>
-                        ${product.originalPrice}
+                    {/* Price and Cart */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-bold" style={{ color: currentTheme.colors.accentPrimary }}>
+                        ${product.price}
                       </span>
-                    )}
+                      <motion.button
+                        onClick={() => addToCart(product.id)}
+                        className="p-2 rounded-lg"
+                        style={{ backgroundColor: currentTheme.colors.accentPrimary }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <ShoppingCart size={18} style={{ color: currentTheme.colors.background }} />
+                      </motion.button>
+                    </div>
                   </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-                  {/* Add to Cart Button */}
-                  <Button
-                    className="w-full flex items-center justify-center gap-2"
-                    style={{
-                      backgroundColor: product.inStock ? 'var(--isolele-accent)' : 'var(--isolele-bg)',
-                      color: product.inStock ? '#000' : 'var(--isolele-text-secondary)',
-                      border: product.inStock ? 'none' : '1px solid var(--isolele-text-secondary)'
-                    }}
-                    disabled={!product.inStock}
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                    {product.inStock 
-                      ? (lang === 'fr' ? "AJOUTER AU PANIER" : "ADD TO CART")
-                      : (lang === 'fr' ? "BIENTOT DISPONIBLE" : "COMING SOON")}
-                  </Button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* No Results */}
+          {filtered.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="text-center py-16"
+            >
+              <p style={{ color: currentTheme.colors.textSecondary }} className="text-lg">
+                No products found matching your search
+              </p>
+            </motion.div>
+          )}
 
           {/* Newsletter CTA */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="mt-20 p-12 rounded-2xl text-center"
-            style={{ 
-              backgroundColor: 'var(--isolele-bg-secondary)',
-              border: '2px solid var(--isolele-accent)'
+            className="mt-20 p-8 sm:p-12 rounded-lg text-center"
+            style={{
+              backgroundColor: `${currentTheme.colors.accentPrimary}10`,
+              border: `2px solid ${currentTheme.colors.accentPrimary}`,
             }}
           >
-            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--isolele-accent)' }}>
-              {lang === 'fr' ? "RESTEZ INFORME" : "STAY INFORMED"}
+            <h2 className="text-3xl font-bold mb-4" style={{ color: currentTheme.colors.accentPrimary }}>
+              STAY INFORMED
             </h2>
-            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: 'var(--isolele-text-secondary)' }}>
-              {lang === 'fr'
-                ? "Inscrivez-vous a notre newsletter pour recevoir des mises a jour exclusives sur les nouvelles sorties et les offres speciales."
-                : "Subscribe to our newsletter for exclusive updates on new releases and special offers."}
+            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: currentTheme.colors.textSecondary }}>
+              Subscribe to our newsletter for exclusive updates on new releases and special offers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <input
                 type="email"
-                placeholder={lang === 'fr' ? "Votre email" : "Your email"}
+                placeholder="Your email"
                 className="flex-1 px-6 py-3 rounded-lg"
-                style={{ 
-                  backgroundColor: 'var(--isolele-bg)',
-                  border: '1px solid var(--isolele-accent)',
-                  color: 'var(--isolele-text)'
+                style={{
+                  backgroundColor: currentTheme.colors.background,
+                  border: `1px solid ${currentTheme.colors.accentPrimary}`,
+                  color: currentTheme.colors.textPrimary,
                 }}
               />
-              <Button
-                style={{ backgroundColor: 'var(--isolele-accent)', color: '#000' }}
-                className="px-8"
+              <button
+                className="px-8 py-3 font-bold rounded-lg whitespace-nowrap"
+                style={{
+                  backgroundColor: currentTheme.colors.accentPrimary,
+                  color: currentTheme.colors.background,
+                }}
               >
-                {lang === 'fr' ? "S'INSCRIRE" : "SUBSCRIBE"}
-              </Button>
+                SUBSCRIBE
+              </button>
             </div>
           </motion.div>
         </div>

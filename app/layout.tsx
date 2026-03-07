@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: 'ISOLELE COMICS | Home of African Superheroes | Zaiire Prince of Kongo',
   description: 'Isolele est un univers visionnaire ne pour restaurer l\'ame du storytelling africain - un empire mythologique ou les Superheros sont choisis par le destin. Decouvrez Zaiire, le Prince du Kongo et son Collier de la Destinee.',
   generator: 'Isolele Comics',
+  icons: {
+    icon: '/isolele-logo-transparent.png',
+    apple: '/isolele-logo-transparent.png',
+  },
   keywords: [
     // English keywords
     'Black African superhero comics', 'African comics universe', 'Afrocentric comic book universe',
