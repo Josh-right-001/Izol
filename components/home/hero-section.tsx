@@ -23,17 +23,19 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Shared background */}
+      {/* Shared background - IMG_4045 */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/art/zaire-prince-kongo.jpg')",
+          backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4045.PNG-fwlhSsKKCRKl4cr6In7R0JclVOsNDL.jpeg')",
         }}
       />
+      {/* Ultra-thin 2% opacity overlay */}
       <div
         className="absolute inset-0"
         style={{
           background: `linear-gradient(135deg, ${currentTheme.colors.background}05 0%, ${currentTheme.colors.backgroundSecondary}03 50%, ${currentTheme.colors.background}05 100%)`,
+          opacity: 0.02,
         }}
       />
 

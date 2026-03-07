@@ -90,8 +90,8 @@ export function SiteHeader() {
                 className="relative"
               >
                 <Image
-                  src="/isolele-logo-transparent.png"
-                  alt="ISOLELE"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png"
+                  alt="ISOLELE ROYALTY"
                   width={60}
                   height={60}
                   className="object-contain"

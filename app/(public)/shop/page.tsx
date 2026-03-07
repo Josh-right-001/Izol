@@ -78,36 +78,69 @@ const products: Product[] = [
     inStock: true,
   },
   {
-    id: "isolele-tshirt",
-    title: "ISOLELE Logo T-Shirt",
+    id: "isolele-cap",
+    title: "ISOLELE Classic Cap",
     price: 34.99,
-    image: "/isolele-logo-transparent.png",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0040-XKYM3hrOzVPgBehxtXhIaVEGtrRq2O.jpg",
     category: "apparel",
     rating: 4.8,
     reviews: 45,
-    link: "/shop/apparel/tshirt",
+    link: "/shop/apparel/cap",
     inStock: true,
   },
   {
-    id: "kongo-poster",
-    title: "Kingdom of Kongo Poster",
-    price: 19.99,
-    image: "/isolele-logo-transparent.png",
-    category: "art",
+    id: "zaiire-cap",
+    title: "ZAIIRE Character Cap",
+    price: 39.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0025-WefKTwtXVGynxbblsgTFrJ0S37VUH2.jpg",
+    category: "apparel",
     rating: 4.9,
-    reviews: 32,
-    link: "/shop/art/poster",
+    reviews: 67,
+    link: "/shop/apparel/zaiire-cap",
     inStock: true,
   },
   {
-    id: "character-collection",
-    title: "ISOLELE Character Collection",
-    price: 49.99,
-    image: "/characters/cast-ensemble.jpg",
-    category: "collectibles",
+    id: "lionpard-cap",
+    title: "LIONPARD Premium Cap",
+    price: 39.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0024-yNBJVYFuGV2qgwIj1Bk1pJcOXG4JE8.jpg",
+    category: "apparel",
     rating: 5.0,
-    reviews: 87,
-    link: "/shop/collectibles/characters",
+    reviews: 89,
+    link: "/shop/apparel/lionpard-cap",
+    inStock: true,
+  },
+  {
+    id: "panthera-cap",
+    title: "PANTHERA Trucker Cap",
+    price: 42.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0035-usohqqBhloi1PUBjn7syRDdY0Vk6j2.jpg",
+    category: "apparel",
+    rating: 4.9,
+    reviews: 76,
+    link: "/shop/apparel/panthera-cap",
+    inStock: true,
+  },
+  {
+    id: "royalty-belt",
+    title: "ROYALTY Signature Belt",
+    price: 89.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0027-hDXXduEV9FQcO2HCdYiOBNfQC8VvKM.jpg",
+    category: "apparel",
+    rating: 4.9,
+    reviews: 54,
+    link: "/shop/apparel/belt",
+    inStock: true,
+  },
+  {
+    id: "royal-sunglasses",
+    title: "ROYALTY Designer Sunglasses",
+    price: 149.99,
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0028-H8sJQMWmOvNeFMzj77nerUi9ZzujsQ.jpg",
+    category: "apparel",
+    rating: 4.95,
+    reviews: 112,
+    link: "/shop/apparel/sunglasses",
     inStock: true,
   },
 ]
@@ -437,6 +470,66 @@ export default function ShopPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Floating Bottom Navigation Bar */}
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="fixed bottom-0 left-0 right-0 flex justify-center items-center pb-6 pointer-events-none"
+        >
+          <div
+            className="flex gap-4 px-6 py-4 rounded-full pointer-events-auto"
+            style={{
+              backgroundColor: currentTheme.colors.backgroundSecondary,
+              border: `2px solid ${currentTheme.colors.accentPrimary}`,
+              boxShadow: `0 8px 32px ${currentTheme.colors.accentPrimary}40`,
+            }}
+          >
+            <Link href="/shop">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
+                style={{
+                  backgroundColor: `${currentTheme.colors.accentPrimary}20`,
+                  color: currentTheme.colors.accentPrimary,
+                }}
+              >
+                <ShoppingCart size={20} />
+                Shop All
+              </motion.button>
+            </Link>
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setSelectedCategory("apparel")}
+              className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
+              style={{
+                backgroundColor: selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}20`,
+                color: selectedCategory === "apparel" ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
+              }}
+            >
+              Apparel
+            </motion.button>
+
+            <Link href="/cart">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-6 py-2 rounded-lg font-bold whitespace-nowrap"
+                style={{
+                  backgroundColor: currentTheme.colors.accentPrimary,
+                  color: currentTheme.colors.background,
+                }}
+              >
+                <ShoppingCart size={20} />
+                Bag {cart.length > 0 && `(${cart.length})`}
+              </motion.button>
+            </Link>
+          </div>
+        </motion.div>
       </main>
     </>
   )

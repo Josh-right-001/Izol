@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   description: 'Isolele est un univers visionnaire ne pour restaurer l\'ame du storytelling africain - un empire mythologique ou les Superheros sont choisis par le destin. Decouvrez Zaiire, le Prince du Kongo et son Collier de la Destinee.',
   generator: 'Isolele Comics',
   icons: {
-    icon: '/isolele-logo-transparent.png',
-    apple: '/isolele-logo-transparent.png',
+    icon: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
+    apple: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
   },
   keywords: [
     // English keywords
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US', 'pt_BR', 'es_ES', 'sw_TZ', 'ln_CD', 'zu_ZA'],
     images: [
       {
-        url: '/isolele-logo.png',
+        url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
         width: 1200,
         height: 630,
         alt: 'ISOLELE - African Superheroes Universe',
@@ -79,13 +79,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ISOLELE COMICS | Home of African Superheroes',
     description: 'Discover Zaiire, the Prince of Kongo. Black African superhero comics celebrating heritage and African mythology.',
-    images: ['/isolele-logo.png'],
+    images: ['https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png'],
     creator: '@isolelecomics',
     site: '@isolelecomics',
-  },
-  icons: {
-    icon: '/isolele-logo.png',
-    apple: '/isolele-logo.png',
   },
   robots: {
     index: true,
