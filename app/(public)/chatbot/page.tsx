@@ -4,10 +4,33 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Menu, X, MessageCircle, Home } from 'lucide-react'
+import { Send, Menu, X, MessageCircle, Home, Sparkles, Zap, Users } from 'lucide-react'
 import { useTheme } from '@/lib/theme-context'
 import { useLanguage } from '@/lib/language-context'
 import { cn } from '@/lib/utils'
+
+// Typing animation component
+function TypingAnimation() {
+  return (
+    <div className="flex gap-2 items-center">
+      <motion.span
+        className="h-2 w-2 rounded-full"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1, repeat: Infinity }}
+      />
+      <motion.span
+        className="h-2 w-2 rounded-full"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1, delay: 0.2, repeat: Infinity }}
+      />
+      <motion.span
+        className="h-2 w-2 rounded-full"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 1, delay: 0.4, repeat: Infinity }}
+      />
+    </div>
+  )
+}
 
 interface Message {
   id: string
@@ -141,7 +164,7 @@ export default function ChatbotPage() {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar Info */}
         <AnimatePresence>
-          {(window.innerWidth >= 1024 || mobileMenuOpen) && (
+          {(typeof window !== 'undefined' && window.innerWidth >= 1024 || mobileMenuOpen) && (
             <motion.div
               initial={{ x: -300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -153,35 +176,79 @@ export default function ChatbotPage() {
               }}
             >
               <div className="p-6 space-y-4">
-                <div className="rounded-lg p-4" style={{ backgroundColor: `${currentTheme.colors.accentPrimary}20` }}>
-                  <h3 className="font-bold mb-2" style={{ color: currentTheme.colors.textPrimary }}>
+                {/* Welcome Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-xl p-4 backdrop-blur-md"
+                  style={{
+                    background: `linear-gradient(135deg, ${currentTheme.colors.accentPrimary}20 0%, ${currentTheme.colors.accentSecondary}10 100%)`,
+                    border: `1px solid ${currentTheme.colors.accentPrimary}30`
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="h-5 w-5" style={{ color: currentTheme.colors.accentPrimary }} />
+                    <h3 className="font-bold" style={{ color: currentTheme.colors.textPrimary }}>
+                      {currentLanguage.code === 'en' ? 'AI Guide' : 'Guide IA'}
+                    </h3>
+                  </div>
+                  <p className="text-sm mb-4" style={{ color: currentTheme.colors.textSecondary }}>
+                    {currentLanguage.code === 'en' 
+                      ? 'Explore the ISOLELE universe with our smart assistant'
+                      : 'Explorez l\'univers ISOLELE avec notre assistant intelligent'}
+                  </p>
+                </motion.div>
+
+                {/* Quick Tips */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="rounded-xl p-4"
+                  style={{ backgroundColor: `${currentTheme.colors.accentPrimary}15` }}
+                >
+                  <h3 className="font-bold mb-3 flex items-center gap-2" style={{ color: currentTheme.colors.textPrimary }}>
+                    <Zap className="h-4 w-4" />
                     {currentLanguage.code === 'en' ? 'Quick Tips' : 'Astuces Rapides'}
                   </h3>
                   <ul className="text-sm space-y-2" style={{ color: currentTheme.colors.textSecondary }}>
-                    <li>• Ask about characters</li>
-                    <li>• Explore the story</li>
-                    <li>• Shop recommendations</li>
-                    <li>• Learn African mythology</li>
+                    <li>✦ Ask about characters</li>
+                    <li>✦ Explore the story</li>
+                    <li>✦ Shop recommendations</li>
+                    <li>✦ Learn African mythology</li>
                   </ul>
-                </div>
+                </motion.div>
 
-                <div className="rounded-lg p-4" style={{ backgroundColor: `${currentTheme.colors.accentSecondary}20` }}>
-                  <h3 className="font-bold mb-2" style={{ color: currentTheme.colors.textPrimary }}>
-                    Popular Topics
+                {/* Popular Topics */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="rounded-xl p-4"
+                  style={{ backgroundColor: `${currentTheme.colors.accentSecondary}15` }}
+                >
+                  <h3 className="font-bold mb-3 flex items-center gap-2" style={{ color: currentTheme.colors.textPrimary }}>
+                    <Users className="h-4 w-4" />
+                    {currentLanguage.code === 'en' ? 'Popular Topics' : 'Sujets Populaires'}
                   </h3>
                   <div className="space-y-2">
                     {['Zaire', 'Bambula', 'Kimoya', 'ISOLELE Universe'].map(topic => (
-                      <button
+                      <motion.button
                         key={topic}
+                        whileHover={{ x: 4 }}
                         onClick={() => setInput(topic)}
-                        className="block w-full text-left text-sm p-2 rounded hover:bg-white/5 transition-colors"
-                        style={{ color: currentTheme.colors.textSecondary }}
+                        className="block w-full text-left text-sm p-3 rounded-lg transition-all"
+                        style={{
+                          color: currentTheme.colors.textSecondary,
+                          backgroundColor: `${currentTheme.colors.accentPrimary}10`,
+                          border: `1px solid ${currentTheme.colors.accentPrimary}20`
+                        }}
                       >
-                        {topic}
-                      </button>
+                        → {topic}
+                      </motion.button>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               </div>
             </motion.div>
           )}
@@ -190,86 +257,84 @@ export default function ChatbotPage() {
         {/* Chat Area */}
         <div className="flex-1 flex flex-col">
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 lg:p-8 space-y-4 lg:space-y-6">
             {messages.map((message, index) => (
               <motion.div
                 key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: index * 0.05, type: "spring", stiffness: 200 }}
                 className={cn(
                   "flex gap-3 max-w-2xl",
                   message.sender === 'user' && "ml-auto flex-row-reverse"
                 )}
               >
                 {message.sender === 'assistant' && (
-                  <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: currentTheme.colors.accentPrimary }}
+                  <motion.div 
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: `linear-gradient(135deg, ${currentTheme.colors.accentPrimary}, ${currentTheme.colors.accentSecondary})`,
+                      boxShadow: `0 4px 12px ${currentTheme.colors.accentPrimary}40`
+                    }}
                   >
-                    <MessageCircle className="w-5 h-5 text-white" />
-                  </div>
+                    <MessageCircle className="w-6 h-6 text-white" />
+                  </motion.div>
                 )}
                 
-                <div
-                  className="rounded-lg px-4 py-3 max-w-md"
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="rounded-2xl px-5 py-4 max-w-md backdrop-blur-sm"
                   style={{
-                    backgroundColor: message.sender === 'user' 
-                      ? currentTheme.colors.accentPrimary
-                      : currentTheme.colors.backgroundSecondary,
+                    background: message.sender === 'user' 
+                      ? `linear-gradient(135deg, ${currentTheme.colors.accentPrimary}, ${currentTheme.colors.accentSecondary})`
+                      : `linear-gradient(135deg, ${currentTheme.colors.backgroundSecondary}ee, ${currentTheme.colors.background}cc)`,
                     color: message.sender === 'user'
                       ? '#FFFFFF'
                       : currentTheme.colors.textPrimary,
                     border: message.sender === 'assistant' 
-                      ? `1px solid ${currentTheme.colors.accentPrimary}30`
-                      : 'none'
+                      ? `1.5px solid ${currentTheme.colors.accentPrimary}40`
+                      : 'none',
+                    boxShadow: message.sender === 'user'
+                      ? `0 8px 24px ${currentTheme.colors.accentPrimary}30`
+                      : `0 4px 12px rgba(0,0,0,0.1)`
                   }}
                 >
-                  <p className="text-sm">{message.text}</p>
-                  <span className="text-xs opacity-70 mt-1 block">
-                    {message.timestamp.toLocaleTimeString()}
+                  <p className="text-sm leading-relaxed">{message.text}</p>
+                  <span className="text-xs opacity-60 mt-2 block">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
             
             {isLoading && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex gap-3"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                className="flex gap-3 max-w-2xl"
               >
-                <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: currentTheme.colors.accentPrimary }}
+                <motion.div 
+                  whileHover={{ scale: 1.1 }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: `linear-gradient(135deg, ${currentTheme.colors.accentPrimary}, ${currentTheme.colors.accentSecondary})`,
+                    boxShadow: `0 4px 12px ${currentTheme.colors.accentPrimary}40`
+                  }}
                 >
-                  <MessageCircle className="w-5 h-5 text-white" />
-                </div>
-                <div 
-                  className="rounded-lg px-4 py-3"
-                  style={{ backgroundColor: currentTheme.colors.backgroundSecondary }}
+                  <MessageCircle className="w-6 h-6 text-white" />
+                </motion.div>
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="rounded-2xl px-5 py-4 backdrop-blur-sm"
+                  style={{
+                    background: `linear-gradient(135deg, ${currentTheme.colors.backgroundSecondary}ee, ${currentTheme.colors.background}cc)`,
+                    border: `1.5px solid ${currentTheme.colors.accentPrimary}40`,
+                    boxShadow: `0 4px 12px rgba(0,0,0,0.1)`
+                  }}
                 >
-                  <div className="flex gap-2">
-                    <motion.div 
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: currentTheme.colors.accentPrimary }}
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <motion.div 
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: currentTheme.colors.accentPrimary }}
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                    />
-                    <motion.div 
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: currentTheme.colors.accentPrimary }}
-                      animate={{ y: [0, -8, 0] }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                    />
-                  </div>
-                </div>
+                  <TypingAnimation />
+                </motion.div>
               </motion.div>
             )}
             
@@ -277,35 +342,46 @@ export default function ChatbotPage() {
           </div>
 
           {/* Input Area */}
-          <div 
-            className="border-t p-4"
-            style={{ borderColor: `${currentTheme.colors.accentPrimary}20` }}
+          <motion.div 
+            className="border-t backdrop-blur-md p-4 lg:p-6"
+            style={{
+              borderColor: `${currentTheme.colors.accentPrimary}20`,
+              background: `${currentTheme.colors.background}99`
+            }}
           >
             <div className="flex gap-2 max-w-4xl mx-auto">
-              <input
+              <motion.input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder={currentLanguage.code === 'en' ? 'Ask anything...' : 'Posez une question...'}
-                className="flex-1 px-4 py-3 rounded-lg outline-none"
+                placeholder={currentLanguage.code === 'en' ? '✨ Ask anything about ISOLELE...' : '✨ Posez une question sur ISOLELE...'}
+                className="flex-1 px-5 py-3 rounded-2xl outline-none transition-all"
+                whileFocus={{ scale: 1.02 }}
                 style={{
                   backgroundColor: currentTheme.colors.backgroundSecondary,
                   color: currentTheme.colors.textPrimary,
-                  border: `1px solid ${currentTheme.colors.accentPrimary}30`
+                  border: `1.5px solid ${currentTheme.colors.accentPrimary}30`,
+                  boxShadow: input.trim() ? `0 0 20px ${currentTheme.colors.accentPrimary}20` : 'none'
                 }}
               />
-              <button
+              <motion.button
                 onClick={handleSendMessage}
                 disabled={!input.trim() || isLoading}
-                className="px-4 py-3 rounded-lg flex items-center gap-2 font-medium transition-opacity disabled:opacity-50"
-                style={{ backgroundColor: currentTheme.colors.accentPrimary, color: '#FFFFFF' }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 rounded-2xl flex items-center gap-2 font-medium transition-all disabled:opacity-50"
+                style={{
+                  background: `linear-gradient(135deg, ${currentTheme.colors.accentPrimary}, ${currentTheme.colors.accentSecondary})`,
+                  color: '#FFFFFF',
+                  boxShadow: `0 4px 15px ${currentTheme.colors.accentPrimary}40`
+                }}
               >
-                <Send className="h-4 w-4" />
-                <span className="hidden sm:inline">Send</span>
-              </button>
+                <Send className="h-5 w-5" />
+                <span className="hidden sm:inline">{currentLanguage.code === 'en' ? 'Send' : 'Envoyer'}</span>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
