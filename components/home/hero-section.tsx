@@ -7,6 +7,26 @@ import { useLanguage } from "@/lib/language-context"
 import Link from "next/link"
 import Image from "next/image"
 
+// Typing animation component
+function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [displayedText, setDisplayedText] = useState("")
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      let index = 0
+      const interval = setInterval(() => {
+        setDisplayedText(text.slice(0, index + 1))
+        index++
+        if (index >= text.length) clearInterval(interval)
+      }, 80)
+      return () => clearInterval(interval)
+    }, delay)
+    return () => clearTimeout(timer)
+  }, [text, delay])
+
+  return <span>{displayedText}</span>
+}
+
 export function HeroSection() {
   const { currentTheme } = useTheme()
   const { t } = useLanguage()
@@ -22,19 +42,21 @@ export function HeroSection() {
   }, [toggleSlide])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Shared background - IMG_4045 */}
+    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      {/* Full background - ZAIIRE ensemble image or fallback */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_4045.PNG-fwlhSsKKCRKl4cr6In7R0JclVOsNDL.jpeg')",
+          backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Isolele%20ZAIIRE-dZ9qgcCZdyxMpgkCfSlSGCAMD2rMVC.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
-      {/* Radial gradient overlay - transparent center, dark edges for visibility */}
+      {/* Subtle radial gradient overlay - mostly transparent to show image */}
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at center, transparent 0%, ${currentTheme.colors.background}02 40%, ${currentTheme.colors.backgroundSecondary}08 100%)`,
+          background: `radial-gradient(ellipse at center, ${currentTheme.colors.background}01 0%, ${currentTheme.colors.background}03 50%, ${currentTheme.colors.background}08 100%)`,
         }}
       />
 
@@ -97,13 +119,13 @@ export function HeroSection() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <h1
-                  className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-wider mb-4"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-wider mb-4 min-h-[1.2em]"
                   style={{
                     color: currentTheme.colors.textPrimary,
                     textShadow: `0 0 40px ${currentTheme.colors.accentPrimary}40`,
                   }}
                 >
-                  ZAIIRE
+                  <TypingText text="ZAIIRE" delay={300} />
                 </h1>
                 <p
                   className="text-lg sm:text-2xl lg:text-3xl font-bold tracking-widest mb-2"

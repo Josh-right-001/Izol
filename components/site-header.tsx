@@ -12,7 +12,11 @@ import {
   X, 
   Palette,
   Globe,
-  MoreVertical
+  MoreVertical,
+  Settings,
+  Home,
+  Users,
+  Zap
 } from "lucide-react"
 import { useTheme, themes } from "@/lib/theme-context"
 import { useLanguage, languages } from "@/lib/language-context"
@@ -593,6 +597,191 @@ export function SiteHeader() {
             </>
           )}
         </AnimatePresence>
+
+        {/* Floating Bottom Nav Bar (Mobile Only) */}
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="fixed bottom-0 left-0 right-0 lg:hidden z-40 flex justify-center pb-4 px-4 pointer-events-none"
+        >
+          <div
+            className="flex gap-2 px-4 py-3 rounded-2xl backdrop-blur-md pointer-events-auto"
+            style={{
+              backgroundColor: `${currentTheme.colors.backgroundSecondary}dd`,
+              border: `1px solid ${currentTheme.colors.accentPrimary}40`,
+              boxShadow: `0 8px 32px ${currentTheme.colors.accentPrimary}20`
+            }}
+          >
+            {/* Home */}
+            <Link href="/">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-xl transition-all"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                  }}
+                  title="Home"
+                >
+                  <Home size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    {t("nav_home")}
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Characters */}
+            <Link href="/characters">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-xl transition-all"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                  }}
+                  title="Characters"
+                >
+                  <Users size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    {t("nav_characters")}
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Shop */}
+            <Link href="/shop">
+              <motion.div
+                className="group relative"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <button
+                  className="p-3 rounded-xl transition-all"
+                  style={{
+                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                    color: currentTheme.colors.accentPrimary,
+                  }}
+                  title="Shop"
+                >
+                  <ShoppingBag size={24} />
+                </button>
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                  <div
+                    className="px-3 py-1 rounded-lg text-xs font-semibold"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentPrimary,
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    {t("nav_shop")}
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
+            {/* Cart with Badge */}
+            <motion.div
+              className="group relative"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="p-3 rounded-xl transition-all relative"
+                style={{
+                  backgroundColor: currentTheme.colors.accentPrimary,
+                  color: currentTheme.colors.background,
+                }}
+                title="Cart"
+              >
+                <ShoppingBag size={24} />
+                {totalItems > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full font-bold text-xs"
+                    style={{
+                      backgroundColor: currentTheme.colors.accentSecondary || '#ff4444',
+                      color: currentTheme.colors.background,
+                    }}
+                  >
+                    {totalItems}
+                  </motion.span>
+                )}
+              </button>
+              <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                <div
+                  className="px-3 py-1 rounded-lg text-xs font-semibold"
+                  style={{
+                    backgroundColor: currentTheme.colors.accentPrimary,
+                    color: currentTheme.colors.background,
+                  }}
+                >
+                  {t("cart")} {totalItems > 0 && `(${totalItems})`}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Settings */}
+            <motion.div
+              className="group relative"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(!mobileMenuOpen)
+                }}
+                className="p-3 rounded-xl transition-all"
+                style={{
+                  backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                  color: currentTheme.colors.accentPrimary,
+                }}
+                title="Settings"
+              >
+                <Settings size={24} />
+              </button>
+              <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                <div
+                  className="px-3 py-1 rounded-lg text-xs font-semibold"
+                  style={{
+                    backgroundColor: currentTheme.colors.accentPrimary,
+                    color: currentTheme.colors.background,
+                  }}
+                >
+                  {t("nav_settings") || "Settings"}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </header>
     </>
   )

@@ -39,14 +39,14 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
           <AnalyticsProvider>
             {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
             <div 
-              className="min-h-screen flex flex-col transition-colors duration-800"
+              className="w-screen min-h-screen flex flex-col transition-colors duration-800 overflow-x-hidden"
               style={{ 
                 backgroundColor: "var(--isolele-bg)",
                 color: "var(--isolele-text)"
               }}
             >
               <SiteHeader />
-              <main className="flex-1 pt-20">
+              <main className="flex-1 w-full pb-24 lg:pb-0 lg:pt-20">
                 {children}
               </main>
               <SiteFooter />
