@@ -163,20 +163,22 @@ export function CharactersSection() {
                     border: `1px solid ${currentTheme.colors.accentPrimary}30`,
                   }}
                 >
-                  {/* Character image placeholder */}
+                  {/* Character image with gradient overlay */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="absolute inset-0"
                     style={{
-                      background: `linear-gradient(135deg, ${character.color}40 0%, ${currentTheme.colors.background} 100%)`
+                      backgroundImage: `url('${character.image}')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
                     }}
-                  >
-                    <span 
-                      className="text-8xl font-black opacity-20"
-                      style={{ color: character.color }}
-                    >
-                      {character.name[0]}
-                    </span>
-                  </div>
+                  />
+                  {/* Gradient overlay - transparent top to color bottom */}
+                  <div 
+                    className="absolute inset-0"
+                    style={{
+                      background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${character.color}40 50%, ${currentTheme.colors.background} 100%)`
+                    }}
+                  />
                   
                   {/* Hover overlay */}
                   <div 

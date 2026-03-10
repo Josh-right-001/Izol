@@ -49,17 +49,12 @@ export function SiteHeader() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-zi3rY5icyQmJw3QkQJGevwIOP5gqzT.png"
                 alt="ISOLELE"
-                width={50}
-                height={50}
+                width={60}
+                height={60}
                 className="object-contain"
               />
-              <div>
-                <h1 className="text-2xl font-bold" style={{ color: currentTheme.colors.textPrimary }}>
-                  ISOLELE
-                </h1>
-              </div>
             </Link>
 
             {/* Desktop Navigation */}
