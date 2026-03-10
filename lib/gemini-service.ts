@@ -22,7 +22,7 @@ export async function translateWithGemini(
   request: TranslationRequest
 ): Promise<TranslationResponse> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Translate the following text to ${request.targetLanguage}. 
 Only provide the translation, nothing else.
@@ -53,7 +53,7 @@ export async function translateBatch(
   targetLanguage: string
 ): Promise<string[]> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Translate all the following texts to ${targetLanguage}.
 Return them in the same order, one per line, without numbering or extra formatting.
@@ -87,7 +87,7 @@ ${texts.map((t, i) => `${i + 1}. "${t}"`).join("\n")}`;
  */
 export async function improveTextStyling(text: string): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Improve the following text by fixing grammar, punctuation, and making it more engaging while keeping the original meaning. Only return the improved text.
 
@@ -112,7 +112,7 @@ export async function generateDescription(
   context: string
 ): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Generate a short, creative and engaging description for: "${subject}" in the context of ${context}. 
 Keep it to 1-2 sentences. Make it captivating and relevant to the ISOLELE universe.`;

@@ -603,10 +603,10 @@ export function SiteHeader() {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="fixed bottom-0 left-0 right-0 lg:hidden z-50 flex justify-center pb-4 px-4 pointer-events-none"
+          className="fixed bottom-0 left-0 right-0 lg:hidden z-40 flex justify-center pb-6 px-4"
         >
           <div
-            className="flex gap-2 px-4 py-3 rounded-2xl backdrop-blur-md pointer-events-auto"
+            className="flex gap-2 px-4 py-3 rounded-2xl backdrop-blur-md"
             style={{
               backgroundColor: `${currentTheme.colors.backgroundSecondary}dd`,
               border: `1px solid ${currentTheme.colors.accentPrimary}40`,
