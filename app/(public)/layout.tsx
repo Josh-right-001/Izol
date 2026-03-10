@@ -46,7 +46,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
               }}
             >
               <SiteHeader />
-              <main className="flex-1 w-full pb-24 lg:pb-0 lg:pt-20">
+              <main className="flex-1 w-full pb-28 lg:pb-0 lg:pt-24">
                 {children}
               </main>
               <SiteFooter />
