@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -27,6 +28,13 @@ body {
   --isolele-accent-secondary: #B3541E;
   --isolele-text: #F5F5DC;
   --isolele-text-secondary: #D3D3C7;
+  
+  /* New Book Hero Variables */
+  --theme-accent: #FFD000;
+  --theme-black: #000000;
+  --theme-white: #FFFFFF;
+  --theme-gray-text: #E6E6E6;
+  --theme-dark: #1a1a1a;
   
   /* Base theme variables */
   --background: oklch(1 0 0);
