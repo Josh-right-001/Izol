@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, Menu, X, ShoppingBag, Settings, Home, Users, Zap, BookOpen, Mask, Crown } from "lucide-react"
+import { ChevronDown, Menu, X, ShoppingBag, Settings, Home, Users, Zap, BookOpen, Theater, Crown } from "lucide-react"
 import { useTheme, themes } from "@/lib/theme-context"
 import { useLanguage, languages } from "@/lib/language-context"
 import { useCart } from "@/lib/cart-context"
@@ -197,7 +197,7 @@ export function SiteHeader() {
                 color: currentTheme.colors.accentPrimary,
               }}
             >
-              <Mask size={24} />
+              <Theater size={24} />
             </motion.button>
           </Link>
 
