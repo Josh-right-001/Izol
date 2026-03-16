@@ -1,742 +1,462 @@
-"use client"
+'use client'
 
-import { useState, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useTheme } from "@/lib/theme-context"
-import { useLanguage } from "@/lib/language-context"
-import Image from "next/image"
-import Link from "next/link"
-import { ShoppingCart, Search, Filter, X, Star, Truck, Shield, CreditCard, Tag, Users, Info } from "lucide-react"
-import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/json-ld"
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ShoppingCart, Home, Wallet, Settings, Search, Heart, Star, Truck, ShieldCheck, CreditCard, ArrowRight, Menu, X } from 'lucide-react'
 
 interface Product {
   id: string
-  title: string
+  name: string
+  category: string
   price: number
   image: string
-  category: string
   rating: number
   reviews: number
-  link: string
   inStock: boolean
 }
 
 const products: Product[] = [
   {
-    id: "zaiire",
-    title: "ZAIIRE - PRINCE OF KONGO",
-    price: 24.99,
-    image: "/characters/zaire-official.jpg",
-    category: "comics",
-    rating: 4.8,
-    reviews: 156,
-    link: "/books/zaiire",
-    inStock: true,
-  },
-  {
-    id: "kimoya",
-    title: "KIMOYA - THE RISING KANDAKE",
-    price: 26.99,
-    image: "/books/mokele-crowned-by-streets.jpg",
-    category: "comics",
+    id: '1',
+    name: 'Royal Golden Crown',
+    category: 'Accessories',
+    price: 245,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg',
     rating: 4.9,
-    reviews: 203,
-    link: "/books/kimoya",
-    inStock: true,
-  },
-  {
-    id: "zattar",
-    title: "ZATTAR - THE BLOOD ARCHITECT",
-    price: 27.99,
-    image: "/characters/bakala-baku.jpg",
-    category: "comics",
-    rating: 4.7,
-    reviews: 142,
-    link: "/books/zattar",
-    inStock: true,
-  },
-  {
-    id: "njoko",
-    title: "THE NJOKO TWINS - BOUND BY DESTINY",
-    price: 25.99,
-    image: "/characters/cast-ensemble.jpg",
-    category: "comics",
-    rating: 4.8,
-    reviews: 178,
-    link: "/books/njoko",
-    inStock: true,
-  },
-  {
-    id: "imvula",
-    title: "QUEEN IMVULA - THE STORM MAIDEN",
-    price: 26.99,
-    image: "/characters/zariko-tabani.jpg",
-    category: "comics",
-    rating: 4.9,
-    reviews: 215,
-    link: "/books/imvula",
-    inStock: true,
-  },
-  {
-    id: "isolele-cap",
-    title: "ISOLELE Classic Cap",
-    price: 34.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0040-XKYM3hrOzVPgBehxtXhIaVEGtrRq2O.jpg",
-    category: "apparel",
-    rating: 4.8,
-    reviews: 45,
-    link: "/shop/apparel/cap",
-    inStock: true,
-  },
-  {
-    id: "zaiire-cap",
-    title: "ZAIIRE Character Cap",
-    price: 39.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0025-WefKTwtXVGynxbblsgTFrJ0S37VUH2.jpg",
-    category: "apparel",
-    rating: 4.9,
-    reviews: 67,
-    link: "/shop/apparel/zaiire-cap",
-    inStock: true,
-  },
-  {
-    id: "lionpard-cap",
-    title: "LIONPARD Premium Cap",
-    price: 39.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0024-yNBJVYFuGV2qgwIj1Bk1pJcOXG4JE8.jpg",
-    category: "apparel",
-    rating: 5.0,
-    reviews: 89,
-    link: "/shop/apparel/lionpard-cap",
-    inStock: true,
-  },
-  {
-    id: "panthera-cap",
-    title: "PANTHERA Trucker Cap",
-    price: 42.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0035-usohqqBhloi1PUBjn7syRDdY0Vk6j2.jpg",
-    category: "apparel",
-    rating: 4.9,
-    reviews: 76,
-    link: "/shop/apparel/panthera-cap",
-    inStock: true,
-  },
-  {
-    id: "royalty-belt",
-    title: "ROYALTY Signature Belt",
-    price: 89.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0027-hDXXduEV9FQcO2HCdYiOBNfQC8VvKM.jpg",
-    category: "apparel",
-    rating: 4.9,
-    reviews: 54,
-    link: "/shop/apparel/belt",
-    inStock: true,
-  },
-  {
-    id: "royal-sunglasses",
-    title: "ROYALTY Designer Sunglasses",
-    price: 149.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0028-H8sJQMWmOvNeFMzj77nerUi9ZzujsQ.jpg",
-    category: "apparel",
-    rating: 4.95,
-    reviews: 112,
-    link: "/shop/apparel/sunglasses",
-    inStock: true,
-  },
-  {
-    id: "zaire-figure",
-    title: "ZAIRE Character Figure",
-    price: 59.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0013-uGz1WsLuJsQwaeoa9FGYTgKiIf9rZA.jpg",
-    category: "collectibles",
-    rating: 4.9,
-    reviews: 78,
-    link: "/shop/collectibles/zaire",
-    inStock: true,
-  },
-  {
-    id: "kimoya-collector",
-    title: "KIMOYA Premium Collectible",
-    price: 79.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0010-XZRyXzQwD9znnsx8mxHbTBRNzjmtHm.jpg",
-    category: "collectibles",
-    rating: 5.0,
-    reviews: 92,
-    link: "/shop/collectibles/kimoya",
-    inStock: true,
-  },
-  {
-    id: "zattar-artifact",
-    title: "ZATTAR The Blood Architect",
-    price: 89.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0011-UqXFP6gWl4Khrn6sXFwj5ZtTTbvkiP.jpg",
-    category: "collectibles",
-    rating: 4.85,
-    reviews: 65,
-    link: "/shop/collectibles/zattar",
-    inStock: true,
-  },
-  {
-    id: "njoko-twins-set",
-    title: "NJOKO Twins Limited Set",
-    price: 149.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0012-HZAFyQIAHjVxMaTAyLn0TKRpvB9DPc.jpg",
-    category: "collectibles",
-    rating: 4.98,
-    reviews: 156,
-    link: "/shop/collectibles/njoko",
-    inStock: true,
-  },
-  {
-    id: "imvula-queen-statue",
-    title: "QUEEN IMVULA Statue",
-    price: 199.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0015-ixHtpvXFjUsQoB2wP6rqZlYnT62ir7.jpg",
-    category: "collectibles",
-    rating: 5.0,
-    reviews: 203,
-    link: "/shop/collectibles/imvula",
-    inStock: true,
-  },
-  {
-    id: "nzingaa-card",
-    title: "QUEEN NZINGAA Character Card",
-    price: 24.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0048-7CheMeB1hkUSenuBOY1qGIjp7O6y9I.jpg",
-    category: "collectibles",
-    rating: 4.7,
-    reviews: 34,
-    link: "/shop/collectibles/card-nzingaa",
-    inStock: true,
-  },
-  {
-    id: "royality-creator",
-    title: "ROYALITY Creator Figurine",
-    price: 79.99,
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260106-WA0036-AyEk2JKc2qXJ6XeB4OhTpU8lXY3pzZ.jpg",
-    category: "collectibles",
-    rating: 4.92,
     reviews: 128,
-    link: "/shop/collectibles/royality",
+    inStock: true,
+  },
+  {
+    id: '2',
+    name: 'Isolele Comic Vol. 1',
+    category: 'Comics',
+    price: 34.99,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg',
+    rating: 4.8,
+    reviews: 89,
+    inStock: true,
+  },
+  {
+    id: '3',
+    name: 'Ceremonial Robe',
+    category: 'Fashion',
+    price: 890,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg',
+    rating: 5.0,
+    reviews: 64,
+    inStock: true,
+  },
+  {
+    id: '4',
+    name: 'Flame Heritage Vest',
+    category: 'Fashion',
+    price: 650,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0071-bufysoFw95vpyBrNbUwoqxhq7HdG1F.jpg',
+    rating: 4.7,
+    reviews: 45,
+    inStock: true,
+  },
+  {
+    id: '5',
+    name: 'Beaded Heritage Jacket',
+    category: 'Fashion',
+    price: 780,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0076-cpHU65HQFsw4mpD5Ec8Gzd0Ic5BWHN.jpg',
+    rating: 4.9,
+    reviews: 73,
+    inStock: true,
+  },
+  {
+    id: '6',
+    name: 'Minimalist Cream Collection',
+    category: 'Fashion',
+    price: 560,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0069-EuegoQTFGgiK1gYg6XHvtBqpsr9sHx.jpg',
+    rating: 4.6,
+    reviews: 52,
+    inStock: true,
+  },
+  {
+    id: '7',
+    name: 'Night Runway Ensemble',
+    category: 'Fashion',
+    price: 1290,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0072-5jS7sfr7ncbO0riemesMxVLTXah9Ce.jpg',
+    rating: 5.0,
+    reviews: 91,
+    inStock: true,
+  },
+  {
+    id: '8',
+    name: 'Woven Masterpiece Cape',
+    category: 'Fashion',
+    price: 1650,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0078-wHjaMSAcNSGJfqLeJnkjpICzbSAQ.jpg',
+    rating: 4.95,
+    reviews: 156,
+    inStock: true,
+  },
+  {
+    id: '9',
+    name: 'Haute Couture Gown',
+    category: 'Fashion',
+    price: 2450,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0063-bgpBMx05R5HyUqrzC6HHA5qE1XW1LU.jpg',
+    rating: 4.8,
+    reviews: 203,
     inStock: true,
   },
 ]
 
-const categories = [
-  { id: "all", name: "All Products" },
-  { id: "comics", name: "Comics & Books" },
-  { id: "apparel", name: "Apparel" },
-  { id: "art", name: "Art & Prints" },
-  { id: "collectibles", name: "Collectibles" },
-]
+const categories = ['All', 'Fashion', 'Comics', 'Accessories']
 
 export default function ShopPage() {
-  const { currentTheme } = useTheme()
-  const { t, currentLanguage } = useLanguage()
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [showFilters, setShowFilters] = useState(false)
-  const [cart, setCart] = useState<string[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [cartItems, setCartItems] = useState<string[]>([])
+  const [showCart, setShowCart] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const filtered = products.filter((product) => {
-    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory
-    const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
-  const addToCart = useCallback((productId: string) => {
-    setCart((prev) => [...prev, productId])
-  }, [])
+  const cartTotal = cartItems.reduce((sum, id) => {
+    const product = products.find(p => p.id === id)
+    return sum + (product?.price || 0)
+  }, 0)
 
   return (
-    <>
-      <BreadcrumbJsonLd items={[
-        { name: "Home", url: "https://isolele.com" },
-        { name: "Shop", url: "https://isolele.com/shop" }
-      ]} />
-      
-      <ProductJsonLd
-        name="ZAIIRE - PRINCE OF KONGO"
-        description="A thrilling and edifying adventure echoing the spirit of The Lion King and Black Panther"
-        price={24.99}
-        image="/characters/zaire-official.jpg"
-        availability="InStock"
-      />
-      
-      <main style={{ background: currentTheme.colors.background, color: currentTheme.colors.textPrimary }} className="min-h-screen py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <h1 className="text-4xl sm:text-5xl font-black tracking-wider mb-4">ISOLELE SHOP</h1>
-            <p style={{ color: currentTheme.colors.textSecondary }} className="text-lg">
-              Discover our collection of African mythology comics and merchandise
-            </p>
-          </motion.div>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="text-2xl font-black text-black">
+            ISOLELE SHOP
+          </Link>
 
-          {/* Trust Badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-wrap justify-center gap-8 mb-12"
-          >
-            {[
-              { icon: Truck, text: "Free Shipping 50+" },
-              { icon: Shield, text: "Secure Payment" },
-              { icon: CreditCard, text: "Easy Returns" }
-            ].map((badge, index) => (
-              <div key={index} className="flex items-center gap-2" style={{ color: currentTheme.colors.textSecondary }}>
-                <badge.icon size={20} style={{ color: currentTheme.colors.accentPrimary }} />
-                <span>{badge.text}</span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Controls */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col md:flex-row gap-4 mb-12"
-          >
-            {/* Search */}
-            <div className="flex-1 relative">
+          {/* Desktop Search */}
+          <div className="hidden md:flex flex-1 max-w-md mx-8">
+            <div className="w-full relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search heroes, crowns, collections..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg pr-10"
-                style={{
-                  backgroundColor: `${currentTheme.colors.accentPrimary}10`,
-                  color: currentTheme.colors.textPrimary,
-                  border: `1px solid ${currentTheme.colors.accentPrimary}30`,
-                }}
-              />
-              <Search
-                size={20}
-                className="absolute right-4 top-1/2 -translate-y-1/2"
-                style={{ color: currentTheme.colors.textSecondary }}
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-yellow-500"
               />
             </div>
+          </div>
 
-            {/* Filter Button */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg font-bold md:hidden"
-              style={{
-                backgroundColor: `${currentTheme.colors.accentPrimary}20`,
-                color: currentTheme.colors.accentPrimary,
-              }}
-            >
-              <Filter size={20} />
-              Filters
-            </button>
-
-            {/* Cart Button */}
-            <Link href="/cart">
-              <button
-                className="relative px-6 py-3 rounded-lg font-bold whitespace-nowrap"
-                style={{
-                  backgroundColor: currentTheme.colors.accentPrimary,
-                  color: currentTheme.colors.background,
-                }}
-              >
-                <ShoppingCart size={20} className="inline mr-2" />
-                Cart {cart.length > 0 && `(${cart.length})`}
-              </button>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/" className="p-2 text-gray-600 hover:text-black transition">
+              <Home size={20} />
             </Link>
-          </motion.div>
+            <button className="p-2 text-gray-600 hover:text-black transition">
+              <Wallet size={20} />
+            </button>
+            <button
+              onClick={() => setShowCart(true)}
+              className="relative p-2 text-gray-600 hover:text-black transition"
+            >
+              <ShoppingCart size={20} />
+              {cartItems.length > 0 && (
+                <span className="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </button>
+            <button className="p-2 text-gray-600 hover:text-black transition">
+              <Settings size={20} />
+            </button>
+          </div>
 
-          {/* Desktop Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="hidden md:flex gap-3 mb-12 flex-wrap"
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2"
           >
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-2 rounded-full font-bold transition-all ${
-                  selectedCategory === category.id ? "ring-2" : ""
-                }`}
-                style={{
-                  backgroundColor: selectedCategory === category.id ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}10`,
-                  color: selectedCategory === category.id ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
-                }}
-              >
-                {category.name}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-100 p-4 space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm"
+              />
+            </div>
+            <div className="flex gap-4">
+              <Link href="/" className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
+                Home
+              </Link>
+              <button className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
+                Wallet
               </button>
-            ))}
-          </motion.div>
+              <button className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
+                Bag ({cartItems.length})
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
-          {/* Mobile Filters */}
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-7xl mx-auto px-6 py-12"
+      >
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-black mb-4">THE CHOSEN LUXE</h1>
+          <p className="text-gray-600 text-lg">Discover premium African-inspired fashion and collectibles</p>
+        </div>
+
+        {/* Categories - Pill Style */}
+        <div className="flex flex-wrap gap-3 justify-center mb-12">
+          {categories.map((category) => (
+            <motion.button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-6 py-2 rounded-full font-semibold transition-all ${
+                selectedCategory === category
+                  ? 'bg-yellow-500 text-black'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {category}
+            </motion.button>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Products Grid */}
+      <div className="max-w-7xl mx-auto px-6 pb-20">
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
           <AnimatePresence>
-            {showFilters && (
+            {filteredProducts.map((product, idx) => (
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="md:hidden mb-8 p-4 rounded-lg"
-                style={{ backgroundColor: `${currentTheme.colors.accentPrimary}10` }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-lg">Categories</h3>
-                  <button onClick={() => setShowFilters(false)}>
-                    <X size={20} />
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => {
-                        setSelectedCategory(category.id)
-                        setShowFilters(false)
-                      }}
-                      className="px-4 py-2 rounded-full font-bold transition-all"
-                      style={{
-                        backgroundColor: selectedCategory === category.id ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}20`,
-                        color: selectedCategory === category.id ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
-                      }}
-                    >
-                      {category.name}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Products Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16"
-          >
-            <AnimatePresence mode="popLayout">
-              {filtered.map((product, idx) => (
                 <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3, delay: idx * 0.05 }}
-                  className="group rounded-lg overflow-hidden"
-                  style={{ backgroundColor: `${currentTheme.colors.accentPrimary}10` }}
+                  whileHover={{ y: -8 }}
+                  className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-300 shadow-sm hover:shadow-lg transition-all duration-300"
                 >
-                  {/* Image */}
-                  <Link href={product.link}>
-                    <div className="relative w-full aspect-[2/3] overflow-hidden cursor-pointer">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                  </Link>
+                  {/* Image Container */}
+                  <div className="relative h-80 bg-gray-50 overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    {product.rating >= 4.9 && (
+                      <div className="absolute top-4 right-4 bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold">
+                        BESTSELLER
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Info */}
-                  <div className="p-4">
-                    <Link href={product.link}>
-                      <h3 className="font-bold text-sm leading-tight group-hover:text-yellow-400 transition-colors cursor-pointer mb-2 line-clamp-2">
-                        {product.title}
-                      </h3>
-                    </Link>
+                  {/* Content */}
+                  <div className="p-6">
+                    <p className="text-xs text-gray-500 uppercase font-semibold mb-2">
+                      {product.category}
+                    </p>
+                    <h3 className="text-lg font-bold text-black mb-3 line-clamp-2">
+                      {product.name}
+                    </h3>
 
                     {/* Rating */}
-                    <div className="flex items-center gap-1 mb-3">
-                      <div className="flex gap-0.5">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="flex gap-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            size={12}
-                            fill={i < Math.floor(product.rating) ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}30`}
-                            color={currentTheme.colors.accentPrimary}
+                            size={14}
+                            className={i < Math.floor(product.rating) ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'}
                           />
                         ))}
                       </div>
-                      <span style={{ color: currentTheme.colors.textSecondary }} className="text-xs">
-                        ({product.reviews})
+                      <span className="text-xs text-gray-600">
+                        {product.rating} ({product.reviews})
                       </span>
                     </div>
 
-                    {/* Price and Cart */}
+                    {/* Price & Button */}
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold" style={{ color: currentTheme.colors.accentPrimary }}>
+                      <span className="text-2xl font-black text-black">
                         ${product.price}
                       </span>
                       <motion.button
-                        onClick={() => addToCart(product.id)}
-                        className="p-2 rounded-lg"
-                        style={{ backgroundColor: currentTheme.colors.accentPrimary }}
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() => setCartItems([...cartItems, product.id])}
+                        className="bg-black text-white p-3 rounded-lg hover:bg-gray-900 transition"
                       >
-                        <ShoppingCart size={18} style={{ color: currentTheme.colors.background }} />
+                        <ShoppingCart size={18} />
                       </motion.button>
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
 
-          {/* No Results */}
-          {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="text-center py-16"
-            >
-              <p style={{ color: currentTheme.colors.textSecondary }} className="text-lg">
-                No products found matching your search
-              </p>
-            </motion.div>
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center py-3 z-40">
+        <Link href="/" className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
+          <Home size={24} />
+          <span className="text-xs">Home</span>
+        </Link>
+        <button className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
+          <Wallet size={24} />
+          <span className="text-xs">Wallet</span>
+        </button>
+        <button
+          onClick={() => setShowCart(true)}
+          className="relative flex flex-col items-center gap-1 text-gray-600 hover:text-black"
+        >
+          <ShoppingCart size={24} />
+          <span className="text-xs">Bag</span>
+          {cartItems.length > 0 && (
+            <span className="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {cartItems.length}
+            </span>
           )}
+        </button>
+        <button className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
+          <Settings size={24} />
+          <span className="text-xs">Settings</span>
+        </button>
+      </div>
 
-          {/* Newsletter CTA */}
+      {/* Cart Drawer */}
+      <AnimatePresence>
+        {showCart && (
           <motion.div
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-20 p-8 sm:p-12 rounded-lg text-center"
-            style={{
-              backgroundColor: `${currentTheme.colors.accentPrimary}10`,
-              border: `2px solid ${currentTheme.colors.accentPrimary}`,
-            }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowCart(false)}
+            className="fixed inset-0 bg-black/50 z-50"
           >
-            <h2 className="text-3xl font-bold mb-4" style={{ color: currentTheme.colors.accentPrimary }}>
-              STAY INFORMED
-            </h2>
-            <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: currentTheme.colors.textSecondary }}>
-              Subscribe to our newsletter for exclusive updates on new releases and special offers.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-6 py-3 rounded-lg"
-                style={{
-                  backgroundColor: currentTheme.colors.background,
-                  border: `1px solid ${currentTheme.colors.accentPrimary}`,
-                  color: currentTheme.colors.textPrimary,
-                }}
-              />
-              <button
-                className="px-8 py-3 font-bold rounded-lg whitespace-nowrap"
-                style={{
-                  backgroundColor: currentTheme.colors.accentPrimary,
-                  color: currentTheme.colors.background,
-                }}
-              >
-                SUBSCRIBE
-              </button>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Professional Floating Bottom Navigation Bar - 5 Icon Buttons */}
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="fixed bottom-0 left-0 right-0 flex justify-center items-center pb-6 pointer-events-none z-50"
-        >
-          <div
-            className="flex gap-3 px-4 py-3 rounded-full pointer-events-auto backdrop-blur-md"
-            style={{
-              backgroundColor: `${currentTheme.colors.backgroundSecondary}f0`,
-              border: `2px solid ${currentTheme.colors.accentPrimary}`,
-              boxShadow: `0 12px 40px ${currentTheme.colors.accentPrimary}30`,
-            }}
-          >
-            {/* Button 1: Shop All */}
-            <Link href="/shop">
-              <motion.div
-                className="group relative"
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className="p-3 rounded-lg transition-all duration-300"
-                  style={{
-                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
-                    color: currentTheme.colors.accentPrimary,
-                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
-                  }}
-                  title="Shop All"
-                >
-                  <ShoppingCart size={24} />
-                </button>
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
-                    style={{
-                      backgroundColor: currentTheme.colors.accentPrimary,
-                      color: currentTheme.colors.background,
-                    }}
-                  >
-                    Shop All
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-
-            {/* Button 2: Apparel Filter */}
             <motion.div
-              className="group relative"
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.9 }}
+              initial={{ x: 400 }}
+              animate={{ x: 0 }}
+              exit={{ x: 400 }}
+              onClick={(e) => e.stopPropagation()}
+              className="absolute right-0 top-0 h-full w-full max-w-md bg-white"
             >
-              <button
-                onClick={() => setSelectedCategory("apparel")}
-                className="p-3 rounded-lg transition-all duration-300"
-                style={{
-                  backgroundColor: selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : `${currentTheme.colors.accentPrimary}15`,
-                  color: selectedCategory === "apparel" ? currentTheme.colors.background : currentTheme.colors.accentPrimary,
-                  border: `1px solid ${selectedCategory === "apparel" ? currentTheme.colors.accentPrimary : currentTheme.colors.accentPrimary}30`,
-                }}
-                title="Apparel"
-              >
-                <Tag size={24} />
-              </button>
-              <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div
-                  className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
-                  style={{
-                    backgroundColor: currentTheme.colors.accentPrimary,
-                    color: currentTheme.colors.background,
-                  }}
-                >
-                  Apparel
+              <div className="p-6 flex flex-col h-full">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-2xl font-bold">Your Bag</h2>
+                  <button onClick={() => setShowCart(false)} className="p-2">
+                    <X size={24} />
+                  </button>
                 </div>
+
+                <div className="flex-1 overflow-y-auto space-y-4 mb-8">
+                  {cartItems.length > 0 ? (
+                    cartItems.map((id, idx) => {
+                      const product = products.find(p => p.id === id)
+                      return product ? (
+                        <div key={idx} className="flex gap-4 pb-4 border-b border-gray-100">
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            width={80}
+                            height={80}
+                            className="rounded-lg object-cover"
+                          />
+                          <div className="flex-1">
+                            <p className="font-semibold">{product.name}</p>
+                            <p className="text-lg font-bold text-yellow-600">${product.price}</p>
+                          </div>
+                          <button
+                            onClick={() => setCartItems(cartItems.filter((_, i) => i !== idx))}
+                            className="text-gray-500 hover:text-red-500"
+                          >
+                            <X size={18} />
+                          </button>
+                        </div>
+                      ) : null
+                    })
+                  ) : (
+                    <p className="text-center text-gray-500 py-8">Your bag is empty</p>
+                  )}
+                </div>
+
+                {cartItems.length > 0 && (
+                  <div className="space-y-4 border-t border-gray-100 pt-6">
+                    <div className="flex justify-between items-center text-lg font-bold">
+                      <span>Total:</span>
+                      <span className="text-yellow-600">${cartTotal.toFixed(2)}</span>
+                    </div>
+
+                    {/* Payment Methods */}
+                    <div className="space-y-3">
+                      <p className="text-sm font-semibold text-gray-600">Payment Method</p>
+                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
+                        <CreditCard size={20} />
+                        <span>Card</span>
+                      </button>
+                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
+                        <Wallet size={20} />
+                        <span>Crypto / Web3</span>
+                      </button>
+                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
+                        <ShieldCheck size={20} />
+                        <span>Apple Pay / Google Pay</span>
+                      </button>
+                    </div>
+
+                    {/* Checkout Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full bg-black text-white py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition"
+                    >
+                      CHECKOUT
+                      <ArrowRight size={20} />
+                    </motion.button>
+
+                    {/* Trust Badges */}
+                    <div className="flex gap-2 text-xs text-gray-600">
+                      <ShieldCheck size={16} />
+                      <span>Secure checkout powered by global payment networks</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
-
-            {/* Button 3: Characters */}
-            <Link href="/characters">
-              <motion.div
-                className="group relative"
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className="p-3 rounded-lg transition-all duration-300"
-                  style={{
-                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
-                    color: currentTheme.colors.accentPrimary,
-                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
-                  }}
-                  title="Characters"
-                >
-                  <Users size={24} />
-                </button>
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
-                    style={{
-                      backgroundColor: currentTheme.colors.accentPrimary,
-                      color: currentTheme.colors.background,
-                    }}
-                  >
-                    Characters
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-
-            {/* Button 4: About */}
-            <Link href="/about">
-              <motion.div
-                className="group relative"
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className="p-3 rounded-lg transition-all duration-300"
-                  style={{
-                    backgroundColor: `${currentTheme.colors.accentPrimary}15`,
-                    color: currentTheme.colors.accentPrimary,
-                    border: `1px solid ${currentTheme.colors.accentPrimary}30`,
-                  }}
-                  title="About"
-                >
-                  <Info size={24} />
-                </button>
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
-                    style={{
-                      backgroundColor: currentTheme.colors.accentPrimary,
-                      color: currentTheme.colors.background,
-                    }}
-                  >
-                    About
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-
-            {/* Button 5: Cart with Badge */}
-            <Link href="/cart">
-              <motion.div
-                className="group relative"
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className="p-3 rounded-lg transition-all duration-300 relative"
-                  style={{
-                    backgroundColor: currentTheme.colors.accentPrimary,
-                    color: currentTheme.colors.background,
-                    border: `1px solid ${currentTheme.colors.accentPrimary}`,
-                  }}
-                  title="Cart"
-                >
-                  <ShoppingCart size={24} />
-                  {cart.length > 0 && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 rounded-full font-bold text-sm"
-                      style={{
-                        backgroundColor: currentTheme.colors.accentSecondary || '#ff4444',
-                        color: currentTheme.colors.background,
-                      }}
-                    >
-                      {cart.length}
-                    </motion.span>
-                  )}
-                </button>
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                  <div
-                    className="px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap"
-                    style={{
-                      backgroundColor: currentTheme.colors.accentPrimary,
-                      color: currentTheme.colors.background,
-                    }}
-                  >
-                    Cart {cart.length > 0 && `(${cart.length})`}
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-          </div>
-        </motion.div>
-      </main>
-    </>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }

@@ -24,7 +24,7 @@ const bookCards: BookCard[] = [
     title: 'THE GOLDEN AGE OF BLACK AFRICAN COMICS',
     description: 'Experience the epic first chapter of the Isolele Universe. A thrilling adventure echoing the spirit of The Lion King and Black Panther.',
     tag: 'ZAIIRE: PRINCE OF KONGO',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0067-NCVgXUh0AgQMsgHPHvQgPd1lYUCNDh.jpg',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260308-WA0059-OkF8yRzmgCR4tSL82YID7CB8nYzZsD.jpg',
     cta: { text: 'DISCOVER NOW', link: '/shop/zaiire' }
   },
   {
