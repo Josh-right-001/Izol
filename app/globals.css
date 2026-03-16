@@ -2,22 +2,11 @@
 @import 'tw-animate-css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
-@custom-variant dark (&:is(.dark *));
-
-/* Global overflow and layout fixes */
-html {
+html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
-}
-
-body {
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
 }
 
 /* Isolele Theme Variables */

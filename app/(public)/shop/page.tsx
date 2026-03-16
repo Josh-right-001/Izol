@@ -1,462 +1,483 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Home, Wallet, Settings, Search, Heart, Star, Truck, ShieldCheck, CreditCard, ArrowRight, Menu, X } from 'lucide-react'
+import { ShoppingCart, Home, Wallet, Settings, Search, Heart, Star, Truck, ShieldCheck, CreditCard, ArrowRight, X, Plus, Minus, Volume2, Send } from 'lucide-react'
 
-interface Product {
-  id: string
-  name: string
-  category: string
-  price: number
-  image: string
-  rating: number
-  reviews: number
-  inStock: boolean
-}
+// Products Data
+const allProducts = [
+  // Comics Section
+  { id: 'comic1', name: 'ZAIIRE: Prince of Kongo Vol.1', category: 'Comics', price: 16.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260308-WA0059-OkF8yRzmgCR4tSL82YID7CB8nYzZsD.jpg', rating: 4.9, reviews: 245, inStock: true },
+  { id: 'comic2', name: 'KIMOYA: The Rising Kandake', category: 'Comics', price: 18.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.8, reviews: 189, inStock: true },
+  { id: 'comic3', name: 'ZATTAR: The Blood Architect', category: 'Comics', price: 19.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 5.0, reviews: 156, inStock: true },
+  { id: 'comic4', name: 'Complete Isolele Collection', category: 'Comics', price: 89.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260308-WA0059-OkF8yRzmgCR4tSL82YID7CB8nYzZsD.jpg', rating: 4.95, reviews: 487, inStock: true },
+  { id: 'comic5', name: 'Art of Isolele: Behind the Scenes', category: 'Comics', price: 39.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.7, reviews: 123, inStock: true },
+  { id: 'comic6', name: 'The Chosen Ones: Official Guide', category: 'Comics', price: 44.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.85, reviews: 201, inStock: true },
 
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Royal Golden Crown',
-    category: 'Accessories',
-    price: 245,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg',
-    rating: 4.9,
-    reviews: 128,
-    inStock: true,
-  },
-  {
-    id: '2',
-    name: 'Isolele Comic Vol. 1',
-    category: 'Comics',
-    price: 34.99,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg',
-    rating: 4.8,
-    reviews: 89,
-    inStock: true,
-  },
-  {
-    id: '3',
-    name: 'Ceremonial Robe',
-    category: 'Fashion',
-    price: 890,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg',
-    rating: 5.0,
-    reviews: 64,
-    inStock: true,
-  },
-  {
-    id: '4',
-    name: 'Flame Heritage Vest',
-    category: 'Fashion',
-    price: 650,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0071-bufysoFw95vpyBrNbUwoqxhq7HdG1F.jpg',
-    rating: 4.7,
-    reviews: 45,
-    inStock: true,
-  },
-  {
-    id: '5',
-    name: 'Beaded Heritage Jacket',
-    category: 'Fashion',
-    price: 780,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0076-cpHU65HQFsw4mpD5Ec8Gzd0Ic5BWHN.jpg',
-    rating: 4.9,
-    reviews: 73,
-    inStock: true,
-  },
-  {
-    id: '6',
-    name: 'Minimalist Cream Collection',
-    category: 'Fashion',
-    price: 560,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0069-EuegoQTFGgiK1gYg6XHvtBqpsr9sHx.jpg',
-    rating: 4.6,
-    reviews: 52,
-    inStock: true,
-  },
-  {
-    id: '7',
-    name: 'Night Runway Ensemble',
-    category: 'Fashion',
-    price: 1290,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0072-5jS7sfr7ncbO0riemesMxVLTXah9Ce.jpg',
-    rating: 5.0,
-    reviews: 91,
-    inStock: true,
-  },
-  {
-    id: '8',
-    name: 'Woven Masterpiece Cape',
-    category: 'Fashion',
-    price: 1650,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0078-wHjaMSAcNSGJfqLeJnkjpICzbSAQ.jpg',
-    rating: 4.95,
-    reviews: 156,
-    inStock: true,
-  },
-  {
-    id: '9',
-    name: 'Haute Couture Gown',
-    category: 'Fashion',
-    price: 2450,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0063-bgpBMx05R5HyUqrzC6HHA5qE1XW1LU.jpg',
-    rating: 4.8,
-    reviews: 203,
-    inStock: true,
-  },
+  // Accessories Section
+  { id: 'acc1', name: 'Gold Royal Crown', category: 'Accessories', price: 125.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.9, reviews: 128, inStock: true },
+  { id: 'acc2', name: 'Isolele House Flag', category: 'Accessories', price: 34.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260126-WA0008-s1T0dU4NMB1nSBT0d54yDrGomJOIey.jpg', rating: 4.6, reviews: 89, inStock: true },
+  { id: 'acc3', name: 'Heritage Necklace Set', category: 'Accessories', price: 79.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0063-bgpBMx05R5HyUqrzC6HHA5qE1XW1LU.jpg', rating: 4.8, reviews: 156, inStock: true },
+  { id: 'acc4', name: 'Ceremonial Rings (Set of 3)', category: 'Accessories', price: 89.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0078-wHjaMSAcNSGJfqLeJnkjpICzbSAQ.jpg', rating: 5.0, reviews: 203, inStock: true },
+  { id: 'acc5', name: 'Golden Isolele Pendant', category: 'Accessories', price: 99.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0066-r8otC91tPyqmd05xvtPzmuWolAnq2a.jpg', rating: 4.75, reviews: 98, inStock: true },
+  { id: 'acc6', name: 'Royal Insignia Brooch', category: 'Accessories', price: 145.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.85, reviews: 112, inStock: true },
+  { id: 'acc7', name: 'Limited Edition Collectors Box', category: 'Accessories', price: 249.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.95, reviews: 287, inStock: true },
+  { id: 'acc8', name: 'Warrior Bracelet', category: 'Accessories', price: 54.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 4.7, reviews: 143, inStock: true },
+
+  // Fashion Section
+  { id: 'fashion1', name: 'Ceremonial Robe Deluxe', category: 'Fashion', price: 425.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 5.0, reviews: 201, inStock: true },
+  { id: 'fashion2', name: 'Flame Heritage Vest', category: 'Fashion', price: 299.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0071-bufysoFw95vpyBrNbUwoqxhq7HdG1F.jpg', rating: 4.8, reviews: 167, inStock: true },
+  { id: 'fashion3', name: 'Beaded Heritage Jacket', category: 'Fashion', price: 379.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0076-cpHU65HQFsw4mpD5Ec8Gzd0Ic5BWHN.jpg', rating: 4.9, reviews: 234, inStock: true },
+  { id: 'fashion4', name: 'Minimalist Cream Collection', category: 'Fashion', price: 249.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0069-EuegoQTFGgiK1gYg6XHvtBqpsr9sHx.jpg', rating: 4.6, reviews: 89, inStock: true },
+  { id: 'fashion5', name: 'Night Runway Ensemble', category: 'Fashion', price: 549.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0072-5jS7sfr7ncbO0riemesMxVLTXah9Ce.jpg', rating: 5.0, reviews: 312, inStock: true },
+  { id: 'fashion6', name: 'Woven Masterpiece Cape', category: 'Fashion', price: 649.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0078-wHjaMSAcNSGJfqLeJnkjpICzbSAQ.jpg', rating: 4.95, reviews: 178, inStock: true },
+  { id: 'fashion7', name: 'Haute Couture Evening Gown', category: 'Fashion', price: 899.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0063-bgpBMx05R5HyUqrzC6HHA5qE1XW1LU.jpg', rating: 4.85, reviews: 267, inStock: true },
+  { id: 'fashion8', name: 'Royal Fashion Complete Set', category: 'Fashion', price: 1299.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 4.9, reviews: 423, inStock: true },
+  { id: 'fashion9', name: 'Fashion Runway Collection', category: 'Fashion', price: 799.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 4.75, reviews: 189, inStock: true },
 ]
 
-const categories = ['All', 'Fashion', 'Comics', 'Accessories']
+interface CartItem {
+  id: string
+  name: string
+  price: number
+  quantity: number
+  image: string
+}
 
 export default function ShopPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [cartItems, setCartItems] = useState<string[]>([])
+  const [activeNav, setActiveNav] = useState<'home' | 'wallet' | 'bag' | 'settings'>('home')
+  const [cart, setCart] = useState<CartItem[]>([])
   const [showCart, setShowCart] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<string>('All')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [language, setLanguage] = useState('en')
+  const [chatOpen, setChatOpen] = useState(false)
+  const [aiMessages, setAiMessages] = useState<Array<{role: 'user'|'ai', text: string}>>([])
+  const [checkoutStep, setCheckoutStep] = useState(0)
+  const [paymentMethod, setPaymentMethod] = useState('card')
+  const chatInputRef = useRef<HTMLInputElement>(null)
 
-  const filteredProducts = products.filter(p => {
-    const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+  const categories = ['All', 'Comics', 'Accessories', 'Fashion']
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'fr', name: 'Français' },
+    { code: 'es', name: 'Español' },
+    { code: 'de', name: 'Deutsch' },
+    { code: 'it', name: 'Italiano' },
+    { code: 'pt', name: 'Português' },
+    { code: 'ja', name: '日本語' },
+    { code: 'zh', name: '中文' },
+  ]
+
+  const filteredProducts = allProducts.filter(p => {
+    const matchCategory = selectedCategory === 'All' || p.category === selectedCategory
+    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchCategory && matchSearch
   })
 
-  const cartTotal = cartItems.reduce((sum, id) => {
-    const product = products.find(p => p.id === id)
-    return sum + (product?.price || 0)
-  }, 0)
+  const addToCart = (product: typeof allProducts[0]) => {
+    const existingItem = cart.find(item => item.id === product.id)
+    if (existingItem) {
+      setCart(cart.map(item =>
+        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+      ))
+    } else {
+      setCart([...cart, {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        image: product.image,
+      }])
+    }
+  }
+
+  const removeFromCart = (id: string) => {
+    setCart(cart.filter(item => item.id !== id))
+  }
+
+  const updateQuantity = (id: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(id)
+    } else {
+      setCart(cart.map(item =>
+        item.id === id ? { ...item, quantity } : item
+      ))
+    }
+  }
+
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const shippingCost = cartTotal > 200 ? 0 : 25
+
+  const handleAIMessage = (msg: string) => {
+    if (!msg.trim()) return
+    setAiMessages([...aiMessages, { role: 'user', text: msg }])
+    setTimeout(() => {
+      setAiMessages(prev => [...prev, { 
+        role: 'ai', 
+        text: 'I can help you negotiate prices or find the perfect item! What would you like?' 
+      }])
+    }, 500)
+    if (chatInputRef.current) chatInputRef.current.value = ''
+  }
+
+  const bgColor = isDarkMode ? 'bg-black' : 'bg-white'
+  const textColor = isDarkMode ? 'text-white' : 'text-black'
+  const cardBg = isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="sticky top-0 z-50 bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-2xl font-black text-black">
-            ISOLELE SHOP
-          </Link>
-
-          {/* Desktop Search */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="w-full relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search heroes, crowns, collections..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-yellow-500"
-              />
-            </div>
-          </div>
-
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link href="/" className="p-2 text-gray-600 hover:text-black transition">
-              <Home size={20} />
-            </Link>
-            <button className="p-2 text-gray-600 hover:text-black transition">
-              <Wallet size={20} />
-            </button>
-            <button
-              onClick={() => setShowCart(true)}
-              className="relative p-2 text-gray-600 hover:text-black transition"
-            >
-              <ShoppingCart size={20} />
-              {cartItems.length > 0 && (
-                <span className="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItems.length}
-                </span>
-              )}
-            </button>
-            <button className="p-2 text-gray-600 hover:text-black transition">
-              <Settings size={20} />
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 p-4 space-y-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm"
-              />
-            </div>
-            <div className="flex gap-4">
-              <Link href="/" className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
-                Home
-              </Link>
-              <button className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
-                Wallet
-              </button>
-              <button className="flex-1 py-2 text-center bg-gray-50 rounded-lg hover:bg-gray-100">
-                Bag ({cartItems.length})
-              </button>
-            </div>
-          </div>
-        )}
+    <div className={`${bgColor} ${textColor} min-h-screen transition-colors duration-300`}>
+      {/* Logo Top-Left */}
+      <div className="fixed top-4 left-4 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 flex items-center justify-center font-black text-black text-sm">
+        ISO
       </div>
 
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto px-6 py-12"
-      >
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-black mb-4">THE CHOSEN LUXE</h1>
-          <p className="text-gray-600 text-lg">Discover premium African-inspired fashion and collectibles</p>
-        </div>
+      {/* Main Content */}
+      <AnimatePresence mode="wait">
+        {activeNav === 'home' && (
+          <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pb-32">
+            {/* Search Bar */}
+            <div className="sticky top-0 z-40 backdrop-blur-xl bg-black/30 border-b border-yellow-500/20 p-4">
+              <div className="max-w-2xl mx-auto flex gap-2">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-3 w-5 h-5 text-yellow-400" />
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={`w-full pl-10 pr-4 py-2 rounded-lg ${cardBg} border border-yellow-500/30 focus:border-yellow-400 outline-none`}
+                  />
+                </div>
+              </div>
+            </div>
 
-        {/* Categories - Pill Style */}
-        <div className="flex flex-wrap gap-3 justify-center mb-12">
-          {categories.map((category) => (
-            <motion.button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-2 rounded-full font-semibold transition-all ${
-                selectedCategory === category
-                  ? 'bg-yellow-500 text-black'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {category}
-            </motion.button>
-          ))}
-        </div>
-      </motion.div>
+            {/* Categories */}
+            <div className="sticky top-16 z-40 backdrop-blur-xl bg-black/30 p-4 border-b border-yellow-500/20">
+              <div className="max-w-6xl mx-auto flex gap-2 overflow-x-auto">
+                {categories.map(cat => (
+                  <motion.button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    whileHover={{ scale: 1.05 }}
+                    className={`px-4 py-2 rounded-full font-bold whitespace-nowrap transition-all ${
+                      selectedCategory === cat
+                        ? 'bg-yellow-400 text-black'
+                        : `${cardBg} border border-yellow-500/30 hover:border-yellow-400`
+                    }`}
+                  >
+                    {cat}
+                  </motion.button>
+                ))}
+              </div>
+            </div>
 
-      {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-6 pb-20">
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filteredProducts.map((product, idx) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: idx * 0.1 }}
-                className="group"
-              >
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-300 shadow-sm hover:shadow-lg transition-all duration-300"
-                >
-                  {/* Image Container */}
-                  <div className="relative h-80 bg-gray-50 overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    {product.rating >= 4.9 && (
-                      <div className="absolute top-4 right-4 bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold">
-                        BESTSELLER
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <p className="text-xs text-gray-500 uppercase font-semibold mb-2">
-                      {product.category}
-                    </p>
-                    <h3 className="text-lg font-bold text-black mb-3 line-clamp-2">
-                      {product.name}
-                    </h3>
-
-                    {/* Rating */}
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="flex gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            size={14}
-                            className={i < Math.floor(product.rating) ? 'fill-yellow-500 text-yellow-500' : 'text-gray-300'}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-xs text-gray-600">
-                        {product.rating} ({product.reviews})
-                      </span>
+            {/* Products Grid */}
+            <div className="max-w-6xl mx-auto p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product, idx) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className={`${cardBg} rounded-2xl overflow-hidden group hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300`}
+                  >
+                    {/* Product Image */}
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
 
-                    {/* Price & Button */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-black">
-                        ${product.price}
-                      </span>
+                    {/* Product Info */}
+                    <div className="p-4">
+                      <h3 className="font-bold text-lg line-clamp-2">{product.name}</h3>
+                      <p className="text-yellow-400 text-sm mb-2">{product.category}</p>
+                      
+                      {/* Rating */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-sm">{product.rating} ({product.reviews} reviews)</span>
+                      </div>
+
+                      {/* Price */}
+                      <p className="text-2xl font-black text-yellow-400 mb-4">${product.price.toFixed(2)}</p>
+
+                      {/* Add to Cart */}
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
+                        onClick={() => addToCart(product)}
+                        whileHover={{ scale: 1.05, backgroundColor: '#FBBF24' }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setCartItems([...cartItems, product.id])}
-                        className="bg-black text-white p-3 rounded-lg hover:bg-gray-900 transition"
+                        className="w-full py-3 bg-yellow-500 text-black font-bold rounded-lg transition-all"
                       >
-                        <ShoppingCart size={18} />
+                        ADD TO CART
                       </motion.button>
                     </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
 
-      {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around items-center py-3 z-40">
-        <Link href="/" className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
-          <Home size={24} />
-          <span className="text-xs">Home</span>
-        </Link>
-        <button className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
-          <Wallet size={24} />
-          <span className="text-xs">Wallet</span>
-        </button>
-        <button
-          onClick={() => setShowCart(true)}
-          className="relative flex flex-col items-center gap-1 text-gray-600 hover:text-black"
-        >
-          <ShoppingCart size={24} />
-          <span className="text-xs">Bag</span>
-          {cartItems.length > 0 && (
-            <span className="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {cartItems.length}
-            </span>
-          )}
-        </button>
-        <button className="flex flex-col items-center gap-1 text-gray-600 hover:text-black">
-          <Settings size={24} />
-          <span className="text-xs">Settings</span>
-        </button>
-      </div>
+        {activeNav === 'wallet' && (
+          <motion.div key="wallet" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-2xl mx-auto p-4 pb-32">
+            <h1 className="text-3xl font-bold mt-8 mb-6">My Wallet</h1>
+            <div className={`${cardBg} rounded-2xl p-6 border border-yellow-500/30`}>
+              <p className="text-gray-400 mb-4">Balance: <span className="text-yellow-400 font-bold text-xl">$0.00</span></p>
+              <button className="w-full py-3 bg-yellow-500 text-black font-bold rounded-lg mb-4">ADD FUNDS</button>
+              <button className="w-full py-3 border border-yellow-500/50 text-yellow-400 font-bold rounded-lg">TRANSACTION HISTORY</button>
+            </div>
+          </motion.div>
+        )}
 
-      {/* Cart Drawer */}
-      <AnimatePresence>
-        {showCart && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowCart(false)}
-            className="fixed inset-0 bg-black/50 z-50"
-          >
-            <motion.div
-              initial={{ x: 400 }}
-              animate={{ x: 0 }}
-              exit={{ x: 400 }}
-              onClick={(e) => e.stopPropagation()}
-              className="absolute right-0 top-0 h-full w-full max-w-md bg-white"
-            >
-              <div className="p-6 flex flex-col h-full">
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-2xl font-bold">Your Bag</h2>
-                  <button onClick={() => setShowCart(false)} className="p-2">
-                    <X size={24} />
-                  </button>
-                </div>
-
-                <div className="flex-1 overflow-y-auto space-y-4 mb-8">
-                  {cartItems.length > 0 ? (
-                    cartItems.map((id, idx) => {
-                      const product = products.find(p => p.id === id)
-                      return product ? (
-                        <div key={idx} className="flex gap-4 pb-4 border-b border-gray-100">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={80}
-                            height={80}
-                            className="rounded-lg object-cover"
-                          />
-                          <div className="flex-1">
-                            <p className="font-semibold">{product.name}</p>
-                            <p className="text-lg font-bold text-yellow-600">${product.price}</p>
-                          </div>
-                          <button
-                            onClick={() => setCartItems(cartItems.filter((_, i) => i !== idx))}
-                            className="text-gray-500 hover:text-red-500"
-                          >
-                            <X size={18} />
+        {activeNav === 'bag' && (
+          <motion.div key="bag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-2xl mx-auto p-4 pb-32">
+            <h1 className="text-3xl font-bold mt-8 mb-6">Shopping Bag</h1>
+            
+            {cart.length === 0 ? (
+              <div className="text-center py-12">
+                <ShoppingCart className="w-16 h-16 mx-auto text-gray-600 mb-4" />
+                <p className="text-gray-400">Your bag is empty</p>
+              </div>
+            ) : (
+              <>
+                {/* Cart Items */}
+                <div className="space-y-4 mb-6">
+                  {cart.map(item => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      className={`${cardBg} rounded-lg p-4 flex gap-4`}
+                    >
+                      <div className="w-24 h-24 relative rounded-lg overflow-hidden flex-shrink-0">
+                        <Image src={item.image} alt={item.name} fill className="object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold">{item.name}</h3>
+                        <p className="text-yellow-400">${item.price.toFixed(2)}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="p-1 hover:bg-gray-800 rounded">
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="w-8 text-center">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="p-1 hover:bg-gray-800 rounded">
+                            <Plus className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => removeFromCart(item.id)} className="ml-auto text-red-400 hover:text-red-300">
+                            <X className="w-4 h-4" />
                           </button>
                         </div>
-                      ) : null
-                    })
-                  ) : (
-                    <p className="text-center text-gray-500 py-8">Your bag is empty</p>
-                  )}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
 
-                {cartItems.length > 0 && (
-                  <div className="space-y-4 border-t border-gray-100 pt-6">
-                    <div className="flex justify-between items-center text-lg font-bold">
-                      <span>Total:</span>
-                      <span className="text-yellow-600">${cartTotal.toFixed(2)}</span>
-                    </div>
-
-                    {/* Payment Methods */}
-                    <div className="space-y-3">
-                      <p className="text-sm font-semibold text-gray-600">Payment Method</p>
-                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
-                        <CreditCard size={20} />
-                        <span>Card</span>
-                      </button>
-                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
-                        <Wallet size={20} />
-                        <span>Crypto / Web3</span>
-                      </button>
-                      <button className="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-black transition">
-                        <ShieldCheck size={20} />
-                        <span>Apple Pay / Google Pay</span>
-                      </button>
-                    </div>
-
-                    {/* Checkout Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full bg-black text-white py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition"
-                    >
-                      CHECKOUT
-                      <ArrowRight size={20} />
-                    </motion.button>
-
-                    {/* Trust Badges */}
-                    <div className="flex gap-2 text-xs text-gray-600">
-                      <ShieldCheck size={16} />
-                      <span>Secure checkout powered by global payment networks</span>
-                    </div>
+                {/* Checkout Section */}
+                <div className={`${cardBg} rounded-2xl p-6 border border-yellow-500/30 space-y-4`}>
+                  <div className="flex justify-between py-2 border-b border-yellow-500/20">
+                    <span>Subtotal:</span>
+                    <span className="font-bold">${cartTotal.toFixed(2)}</span>
                   </div>
-                )}
+                  <div className="flex justify-between py-2 border-b border-yellow-500/20">
+                    <span>Shipping: {shippingCost === 0 ? '(FREE)' : ''}</span>
+                    <span className="font-bold text-green-400">${shippingCost.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between py-3 text-lg">
+                    <span>Total:</span>
+                    <span className="font-black text-yellow-400">${(cartTotal + shippingCost).toFixed(2)}</span>
+                  </div>
+
+                  {/* Payment Methods */}
+                  <div className="space-y-2 mt-4">
+                    <p className="text-sm font-bold text-gray-400">SELECT PAYMENT METHOD</p>
+                    {[
+                      { id: 'card', name: 'Credit/Debit Card', icon: CreditCard },
+                      { id: 'crypto', name: 'Crypto/Web3', icon: Volume2 },
+                      { id: 'apple', name: 'Apple Pay / Google Pay', icon: ArrowRight },
+                    ].map(method => (
+                      <motion.button
+                        key={method.id}
+                        onClick={() => setPaymentMethod(method.id)}
+                        whileHover={{ scale: 1.02 }}
+                        className={`w-full p-4 rounded-lg border-2 flex items-center gap-3 transition-all ${
+                          paymentMethod === method.id
+                            ? 'border-yellow-400 bg-yellow-500/10'
+                            : `border-yellow-500/30 ${cardBg}`
+                        }`}
+                      >
+                        <method.icon className="w-5 h-5 text-yellow-400" />
+                        <span className="font-bold">{method.name}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+
+                  {/* Checkout Button with Process */}
+                  <motion.button
+                    onClick={() => setCheckoutStep(checkoutStep === 0 ? 1 : checkoutStep === 1 ? 2 : 0)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full py-4 bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-black rounded-lg mt-4 text-lg"
+                  >
+                    {checkoutStep === 0 && 'PROCEED TO CHECKOUT'}
+                    {checkoutStep === 1 && 'VERIFY & CONFIRM'}
+                    {checkoutStep === 2 && 'ORDER CONFIRMED ✓'}
+                  </motion.button>
+
+                  {/* Checkout Progress */}
+                  {checkoutStep > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/30"
+                    >
+                      <p className="text-sm font-bold mb-3">
+                        Step {checkoutStep} of 3: {checkoutStep === 1 ? 'Verify Order' : checkoutStep === 2 ? 'Process Payment' : ''}
+                      </p>
+                      <div className="w-full h-2 bg-yellow-500/20 rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-yellow-400 to-amber-500"
+                          animate={{ width: `${(checkoutStep / 3) * 100}%` }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </>
+            )}
+          </motion.div>
+        )}
+
+        {activeNav === 'settings' && (
+          <motion.div key="settings" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-2xl mx-auto p-4 pb-32">
+            <h1 className="text-3xl font-bold mt-8 mb-6">Settings</h1>
+
+            {/* Theme Toggle */}
+            <div className={`${cardBg} rounded-2xl p-6 border border-yellow-500/30 mb-4`}>
+              <h2 className="font-bold text-lg mb-4">Display</h2>
+              <motion.button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                whileHover={{ scale: 1.02 }}
+                className="w-full p-4 bg-yellow-500 text-black font-bold rounded-lg"
+              >
+                Switch to {isDarkMode ? 'Light' : 'Dark'} Mode
+              </motion.button>
+            </div>
+
+            {/* Language Selection */}
+            <div className={`${cardBg} rounded-2xl p-6 border border-yellow-500/30 mb-4`}>
+              <h2 className="font-bold text-lg mb-4">Language</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {languages.map(lang => (
+                  <motion.button
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code)}
+                    whileHover={{ scale: 1.05 }}
+                    className={`p-3 rounded-lg font-bold transition-all ${
+                      language === lang.code
+                        ? 'bg-yellow-400 text-black'
+                        : `${cardBg} border border-yellow-500/30`
+                    }`}
+                  >
+                    {lang.name}
+                  </motion.button>
+                ))}
               </div>
-            </motion.div>
+            </div>
+
+            {/* AI Negotiator Bot */}
+            <div className={`${cardBg} rounded-2xl p-6 border border-yellow-500/30`}>
+              <h2 className="font-bold text-lg mb-4">AI Price Negotiator</h2>
+              <motion.button
+                onClick={() => setAiMessages([{ role: 'ai', text: 'Hello! I can help you find discounts and negotiate prices on Isolele products. What are you interested in?' }]) || setAiMessages(prev => [{ role: 'ai', text: 'Hello! I can help you find discounts and negotiate prices on Isolele products. What are you interested in?' }])}
+                whileHover={{ scale: 1.02 }}
+                className="w-full p-4 bg-yellow-500 text-black font-bold rounded-lg mb-4"
+              >
+                START AI CHAT
+              </motion.button>
+
+              {/* Chat Box */}
+              {aiMessages.length > 0 && (
+                <div className={`border border-yellow-500/30 rounded-lg h-64 overflow-y-auto p-4 mb-4 bg-black/50 space-y-3`}>
+                  {aiMessages.map((msg, idx) => (
+                    <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-xs p-3 rounded-lg ${
+                        msg.role === 'user'
+                          ? 'bg-yellow-500/30 text-white'
+                          : 'bg-yellow-500/10 border border-yellow-500/30'
+                      }`}>
+                        {msg.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Chat Input */}
+              <div className="flex gap-2">
+                <input
+                  ref={chatInputRef}
+                  type="text"
+                  placeholder="Ask for a discount..."
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      handleAIMessage(chatInputRef.current?.value || '')
+                    }
+                  }}
+                  className={`flex-1 p-2 rounded-lg ${cardBg} border border-yellow-500/30 focus:border-yellow-400 outline-none`}
+                />
+                <button
+                  onClick={() => handleAIMessage(chatInputRef.current?.value || '')}
+                  className="p-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 transition-all"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-yellow-500/20 backdrop-blur-xl bg-black/80">
+        <div className="max-w-2xl mx-auto flex justify-around">
+          {[
+            { id: 'home', icon: Home, label: 'Home' },
+            { id: 'wallet', icon: Wallet, label: 'Wallet' },
+            { id: 'bag', icon: ShoppingCart, label: 'Bag', badge: cart.length },
+            { id: 'settings', icon: Settings, label: 'Settings' },
+          ].map(nav => (
+            <motion.button
+              key={nav.id}
+              onClick={() => setActiveNav(nav.id as any)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className={`flex-1 py-4 flex flex-col items-center gap-2 font-bold transition-all relative ${
+                activeNav === nav.id ? 'text-yellow-400' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              <nav.icon className="w-6 h-6" />
+              <span className="text-xs">{nav.label}</span>
+              {nav.badge ? (
+                <span className="absolute top-2 right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-black">
+                  {nav.badge}
+                </span>
+              ) : null}
+            </motion.button>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
