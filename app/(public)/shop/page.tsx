@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, Home, Wallet, Settings, Search, Heart, Star, Truck, ShieldCheck, CreditCard, ArrowRight, X, Plus, Minus, Volume2, Send } from 'lucide-react'
+import { NetflixCarousel } from '@/components/netflix-carousel'
 
 // Products Data
 const allProducts = [
@@ -16,15 +17,18 @@ const allProducts = [
   { id: 'comic5', name: 'Art of Isolele: Behind the Scenes', category: 'Comics', price: 39.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.7, reviews: 123, inStock: true },
   { id: 'comic6', name: 'The Chosen Ones: Official Guide', category: 'Comics', price: 44.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.85, reviews: 201, inStock: true },
 
-  // Accessories Section
-  { id: 'acc1', name: 'Gold Royal Crown', category: 'Accessories', price: 125.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.9, reviews: 128, inStock: true },
-  { id: 'acc2', name: 'Isolele House Flag', category: 'Accessories', price: 34.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260126-WA0008-s1T0dU4NMB1nSBT0d54yDrGomJOIey.jpg', rating: 4.6, reviews: 89, inStock: true },
-  { id: 'acc3', name: 'Heritage Necklace Set', category: 'Accessories', price: 79.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0063-bgpBMx05R5HyUqrzC6HHA5qE1XW1LU.jpg', rating: 4.8, reviews: 156, inStock: true },
-  { id: 'acc4', name: 'Ceremonial Rings (Set of 3)', category: 'Accessories', price: 89.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0078-wHjaMSAcNSGJfqLeJnkjpICzbSAQ.jpg', rating: 5.0, reviews: 203, inStock: true },
-  { id: 'acc5', name: 'Golden Isolele Pendant', category: 'Accessories', price: 99.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0066-r8otC91tPyqmd05xvtPzmuWolAnq2a.jpg', rating: 4.75, reviews: 98, inStock: true },
-  { id: 'acc6', name: 'Royal Insignia Brooch', category: 'Accessories', price: 145.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.85, reviews: 112, inStock: true },
-  { id: 'acc7', name: 'Limited Edition Collectors Box', category: 'Accessories', price: 249.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.95, reviews: 287, inStock: true },
-  { id: 'acc8', name: 'Warrior Bracelet', category: 'Accessories', price: 54.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 4.7, reviews: 143, inStock: true },
+  // Accessories Section - Premium Collection
+  { id: 'acc1', name: 'Royal Golden Crown', category: 'Accessories', price: 245.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0021-gtTE1FKIqHREoscLmcpydLPt09nn5M.jpg', rating: 4.95, reviews: 178, inStock: true },
+  { id: 'acc2', name: 'Zaiire Character Cap', category: 'Accessories', price: 89.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0026-4lJtHXPlKDW0ETYoKxj3uOCscFCFaS.jpg', rating: 4.8, reviews: 112, inStock: true },
+  { id: 'acc3', name: 'African Mask Spirit', category: 'Accessories', price: 199.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0019-lIccvDFS0C5Trkq38r6VUxlbFh2pNM.jpg', rating: 5.0, reviews: 134, inStock: true },
+  { id: 'acc4', name: 'Panthera Black Cap', category: 'Accessories', price: 79.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0035-knScMbzJ5xP7tyAqfpu2tnMS7lnMqY.jpg', rating: 4.9, reviews: 156, inStock: true },
+  { id: 'acc5', name: 'Premium Sneaker Panthera', category: 'Accessories', price: 159.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0050-0EvGwiQ882fDOlbsmBN4uqEYvV1ET4.jpg', rating: 4.85, reviews: 189, inStock: true },
+  { id: 'acc6', name: 'Lion Heritage Shoes', category: 'Accessories', price: 189.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0020-QkPSM9PkuNZjPgSbmnc7maS8CTg08j.jpg', rating: 4.75, reviews: 98, inStock: true },
+  { id: 'acc7', name: 'Golden Lion Mask', category: 'Accessories', price: 229.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0018-b7vCEEV8dcj2HcSPNAvy2GMLnu1ltK.jpg', rating: 4.95, reviews: 142, inStock: true },
+  { id: 'acc8', name: 'Isolele Premium Belt', category: 'Accessories', price: 129.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0027-Zaxp5cCFMz8JCYzEoJuO1GvaU2vSMV.jpg', rating: 4.9, reviews: 165, inStock: true },
+  { id: 'acc9', name: 'ZAIIRE Premium Perfume', category: 'Accessories', price: 99.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0022-0AnfJyAKrcoziXwMQgRd3Msy6tcEhY.jpg', rating: 4.85, reviews: 203, inStock: true },
+  { id: 'acc10', name: 'Lionpard White Cap', category: 'Accessories', price: 84.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0024-Qmafphzz2kmhWoxGu8DlqLvrwgNdrU.jpg', rating: 4.8, reviews: 127, inStock: true },
+  { id: 'acc11', name: 'Zaiire Black Cap', category: 'Accessories', price: 74.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0025-pDeFCqGikquZGnccU3l8gcdqCIoB3m.jpg', rating: 4.7, reviews: 89, inStock: true },
 
   // Fashion Section
   { id: 'fashion1', name: 'Ceremonial Robe Deluxe', category: 'Fashion', price: 425.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 5.0, reviews: 201, inStock: true },
@@ -448,6 +452,37 @@ export default function ShopPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Fashion Section with Netflix Carousel */}
+      {activeNav === 'home' && (
+        <div className="max-w-7xl mx-auto px-4 pb-32 mt-8">
+          <NetflixCarousel
+            title="Featured Fashion & Accessories"
+            items={allProducts.filter(p => p.category === 'Fashion' || p.category === 'Accessories').map(p => ({
+              id: p.id,
+              title: p.name,
+              description: `Premium ${p.category} - Rating: ${p.rating}⭐`,
+              image: p.image,
+              price: p.price,
+              category: p.category
+            }))}
+            onItemClick={(item) => console.log('[v0] Clicked:', item)}
+          />
+
+          <NetflixCarousel
+            title="Top-Rated Comics Collection"
+            items={allProducts.filter(p => p.category === 'Comics').map(p => ({
+              id: p.id,
+              title: p.name,
+              description: `Exclusive comic - Rating: ${p.rating}⭐`,
+              image: p.image,
+              price: p.price,
+              category: p.category
+            }))}
+            onItemClick={(item) => console.log('[v0] Clicked:', item)}
+          />
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-yellow-500/20 backdrop-blur-xl bg-black/80">

@@ -49,10 +49,10 @@ export function SiteHeader() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-zi3rY5icyQmJw3QkQJGevwIOP5gqzT.png"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png"
                 alt="ISOLELE"
-                width={60}
-                height={60}
+                width={120}
+                height={80}
                 className="object-contain"
               />
             </Link>

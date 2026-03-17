@@ -71,10 +71,10 @@ export function SiteFooter() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/isolele-logo-transparent.png"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png"
                 alt="ISOLELE"
-                width={40}
-                height={40}
+                width={60}
+                height={50}
                 className="object-contain"
                 style={{ width: 'auto', height: 'auto' }}
               />
