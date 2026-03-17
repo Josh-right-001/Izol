@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, Home, Wallet, Settings, Search, Heart, Star, Truck, ShieldCheck, CreditCard, ArrowRight, X, Plus, Minus, Volume2, Send } from 'lucide-react'
 import { NetflixCarousel } from '@/components/netflix-carousel'
+import { useLanguage, languages } from '@/lib/language-context'
 
 // Products Data
 const allProducts = [
@@ -17,18 +18,26 @@ const allProducts = [
   { id: 'comic5', name: 'Art of Isolele: Behind the Scenes', category: 'Comics', price: 39.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0025-zDnbqzZHrJbuM1puyg17A6Fn3GGjYJ.jpg', rating: 4.7, reviews: 123, inStock: true },
   { id: 'comic6', name: 'The Chosen Ones: Official Guide', category: 'Comics', price: 44.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0026-KsdQ6cFRJai917jif4Megu98G43PyT.jpg', rating: 4.85, reviews: 201, inStock: true },
 
-  // Accessories Section - Premium Collection
-  { id: 'acc1', name: 'Royal Golden Crown', category: 'Accessories', price: 245.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0021-gtTE1FKIqHREoscLmcpydLPt09nn5M.jpg', rating: 4.95, reviews: 178, inStock: true },
-  { id: 'acc2', name: 'Zaiire Character Cap', category: 'Accessories', price: 89.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0026-4lJtHXPlKDW0ETYoKxj3uOCscFCFaS.jpg', rating: 4.8, reviews: 112, inStock: true },
-  { id: 'acc3', name: 'African Mask Spirit', category: 'Accessories', price: 199.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0019-lIccvDFS0C5Trkq38r6VUxlbFh2pNM.jpg', rating: 5.0, reviews: 134, inStock: true },
-  { id: 'acc4', name: 'Panthera Black Cap', category: 'Accessories', price: 79.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0035-knScMbzJ5xP7tyAqfpu2tnMS7lnMqY.jpg', rating: 4.9, reviews: 156, inStock: true },
-  { id: 'acc5', name: 'Premium Sneaker Panthera', category: 'Accessories', price: 159.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0050-0EvGwiQ882fDOlbsmBN4uqEYvV1ET4.jpg', rating: 4.85, reviews: 189, inStock: true },
-  { id: 'acc6', name: 'Lion Heritage Shoes', category: 'Accessories', price: 189.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0020-QkPSM9PkuNZjPgSbmnc7maS8CTg08j.jpg', rating: 4.75, reviews: 98, inStock: true },
-  { id: 'acc7', name: 'Golden Lion Mask', category: 'Accessories', price: 229.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0018-b7vCEEV8dcj2HcSPNAvy2GMLnu1ltK.jpg', rating: 4.95, reviews: 142, inStock: true },
-  { id: 'acc8', name: 'Isolele Premium Belt', category: 'Accessories', price: 129.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0027-Zaxp5cCFMz8JCYzEoJuO1GvaU2vSMV.jpg', rating: 4.9, reviews: 165, inStock: true },
-  { id: 'acc9', name: 'ZAIIRE Premium Perfume', category: 'Accessories', price: 99.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0022-0AnfJyAKrcoziXwMQgRd3Msy6tcEhY.jpg', rating: 4.85, reviews: 203, inStock: true },
-  { id: 'acc10', name: 'Lionpard White Cap', category: 'Accessories', price: 84.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0024-Qmafphzz2kmhWoxGu8DlqLvrwgNdrU.jpg', rating: 4.8, reviews: 127, inStock: true },
-  { id: 'acc11', name: 'Zaiire Black Cap', category: 'Accessories', price: 74.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0025-pDeFCqGikquZGnccU3l8gcdqCIoB3m.jpg', rating: 4.7, reviews: 89, inStock: true },
+  // Accessories Section - Premium Collection (18 items)
+  { id: 'acc1', name: 'Lionpard White Cap', category: 'Accessories', price: 84.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0024-PTyKioNdMd7zYsJi4IVX185yfLHH7x.jpg', rating: 4.95, reviews: 178, inStock: true },
+  { id: 'acc2', name: 'Isolele Premium Sneaker Purple', category: 'Accessories', price: 189.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0050-RQVIgqEeFWEiZTH0ZKIzJC4QIycN2H.jpg', rating: 4.9, reviews: 156, inStock: true },
+  { id: 'acc3', name: 'African Tribal Mask Gold', category: 'Accessories', price: 219.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0019-JdWgj1mRb9mtwcIJZTa9CsJSEXTFRu.jpg', rating: 5.0, reviews: 142, inStock: true },
+  { id: 'acc4', name: 'Royal Golden Crown Bottle', category: 'Accessories', price: 245.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0021-UM1srzyiV1FY2XEgVA9d0OmKHwW16g.jpg', rating: 4.95, reviews: 201, inStock: true },
+  { id: 'acc5', name: 'Roiroyal Black Sunglasses', category: 'Accessories', price: 159.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0016-ttUVpeMTiwMjIw0mK2eBBBQQl6Xz8o.jpg', rating: 4.85, reviews: 134, inStock: true },
+  { id: 'acc6', name: 'Premium Sneaker Blend Cream', category: 'Accessories', price: 179.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0018-sJdbOo23H2uG49qJQYwSj1ZcmcIxwy.jpg', rating: 4.88, reviews: 167, inStock: true },
+  { id: 'acc7', name: 'Panthera Golden Lion Mask', category: 'Accessories', price: 229.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0018-sJdbOo23H2uG49qJQYwSj1ZcmcIxwy.jpg', rating: 4.95, reviews: 189, inStock: true },
+  { id: 'acc8', name: 'ZAIIRE Premium Perfume Crown', category: 'Accessories', price: 129.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0023-Y2aUaQd0ltf6OoSXY05mCBoWOvoWuP.jpg', rating: 4.9, reviews: 215, inStock: true },
+  { id: 'acc9', name: 'Panthera Black Cap Premium', category: 'Accessories', price: 99.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0035-rAKjX0p65zftiqQjbjh1gUWSg7ymnU.jpg', rating: 4.8, reviews: 156, inStock: true },
+  { id: 'acc10', name: 'Isolele White Cap Logo', category: 'Accessories', price: 84.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0040-xj7hQixkIMza6zNORtVgYdVrQxPTWR.jpg', rating: 4.85, reviews: 178, inStock: true },
+  { id: 'acc11', name: 'Luxury Airplane Sneaker Cream', category: 'Accessories', price: 249.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0017-dWEUyT9LHaQSWmFTuSZffZS5hNA2bz.jpg', rating: 4.92, reviews: 201, inStock: true },
+  { id: 'acc12', name: 'Roiroyal Square Sunglasses', category: 'Accessories', price: 169.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0028-pB2xVCrb5Fl9Pph4AaM09INWPj7maW.jpg', rating: 4.87, reviews: 145, inStock: true },
+  { id: 'acc13', name: 'Premium Sneaker Blend Purple', category: 'Accessories', price: 199.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260308-WA0001-QrVZTtkAVYn3mWY88n6vJ9CV4Ohnaj.jpg', rating: 4.91, reviews: 189, inStock: true },
+  { id: 'acc14', name: 'Sneaker Cream Beige Green', category: 'Accessories', price: 189.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0020-71W79kwvoXaNmPl632UdjPaMcfeON9.jpg', rating: 4.86, reviews: 167, inStock: true },
+  { id: 'acc15', name: 'Isolele Premium Belt Black', category: 'Accessories', price: 139.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0027-C7jiViIgJCjv5wSexjfhnMQjLmKlup.jpg', rating: 4.9, reviews: 198, inStock: true },
+  { id: 'acc16', name: 'ZAIIRE Prince Perfume Bottle', category: 'Accessories', price: 159.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0022-8Ay87m0csZL4OfMgx8yd72hygYrVMB.jpg', rating: 4.93, reviews: 213, inStock: true },
+  { id: 'acc17', name: 'Zaiire Character Cap Black', category: 'Accessories', price: 94.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0025-iDNm79Ha7Vy6lNh8Y6nesEzVhOkDqS.jpg', rating: 4.82, reviews: 134, inStock: true },
+  { id: 'acc18', name: 'Zaiire Warrior Character Cap', category: 'Accessories', price: 104.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0026-EnAOyZxJZplbmaBdmt0bxcQ8l1R7ik.jpg', rating: 4.88, reviews: 156, inStock: true },
+  { id: 'acc19', name: 'Lion King Golden Mask', category: 'Accessories', price: 279.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260308-WA0004-qGqDLI2gzqKHnoXg5IYR57vFrhQfTu.jpg', rating: 4.96, reviews: 224, inStock: true },
 
   // Fashion Section
   { id: 'fashion1', name: 'Ceremonial Robe Deluxe', category: 'Fashion', price: 425.00, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260311-WA0073-CENE1zQHLu9ymMqgGZ66aICSO0bfMT.jpg', rating: 5.0, reviews: 201, inStock: true },

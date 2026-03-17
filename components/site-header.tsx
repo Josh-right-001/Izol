@@ -49,9 +49,9 @@ export function SiteHeader() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <Image 
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png" 
-                alt="Isolele" 
-                width={120} 
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-oXxaPZHKWdeJZRprgYoFnE4I6cFtI6.png" 
+                alt="ISOLELE ROYALITY" 
+                width={100} 
                 height={40} 
                 className="object-contain"
               />
@@ -231,19 +231,35 @@ export function SiteHeader() {
             </motion.button>
           </Link>
 
+          {/* Wallet */}
+          <Link href="/wallet">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-3 rounded-2xl transition-all"
+              style={{
+                backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                color: currentTheme.colors.accentPrimary,
+              }}
+            >
+              <Wallet size={24} />
+            </motion.button>
+          </Link>
+
           {/* Settings */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-3 rounded-2xl transition-all"
-            style={{
-              backgroundColor: `${currentTheme.colors.accentPrimary}15`,
-              color: currentTheme.colors.accentPrimary,
-            }}
-          >
-            <Settings size={24} />
-          </motion.button>
+          <Link href="/settings">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-3 rounded-2xl transition-all"
+              style={{
+                backgroundColor: `${currentTheme.colors.accentPrimary}15`,
+                color: currentTheme.colors.accentPrimary,
+              }}
+            >
+              <Settings size={24} />
+            </motion.button>
+          </Link>
         </div>
       </motion.div>
 
