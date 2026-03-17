@@ -9,53 +9,31 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* Isolele Theme Variables */
-:root {
-  --isolele-bg: #0A0A0A;
-  --isolele-bg-secondary: #1A120B;
-  --isolele-accent: #D4AF37;
-  --isolele-accent-secondary: #B3541E;
-  --isolele-text: #F5F5DC;
-  --isolele-text-secondary: #D3D3C7;
-}
-
-.dark {
-  --isolele-bg: #0A0A0A;
-  --isolele-bg-secondary: #1A120B;
-  --isolele-accent: #D4AF37;
-  --isolele-accent-secondary: #B3541E;
-  --isolele-text: #F5F5DC;
-  --isolele-text-secondary: #D3D3C7;
-}
-
-.light {
-  --isolele-bg: #FFFFFF;
-  --isolele-bg-secondary: #F8F9FA;
-  --isolele-accent: #D4AF37;
-  --isolele-accent-secondary: #B3541E;
-  --isolele-text: #0A0A0A;
-  --isolele-text-secondary: #333333;
-}
-
-/* Font Family */
-body {
-  font-family: 'Montserrat', sans-serif;
-}
-
-/* Scrollbar */
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--isolele-bg);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--isolele-accent);
+  background: rgba(212, 175, 55, 0.6);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--isolele-accent-secondary);
+  background: rgba(212, 175, 55, 0.8);
+}
+
+/* Prevent layout shift */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease;
 }

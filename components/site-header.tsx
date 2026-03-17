@@ -56,14 +56,6 @@ export function SiteHeader() {
                 className="object-contain"
               />
             </Link>
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png"
-                alt="ISOLELE"
-                width={120}
-                height={80}
-                className="object-contain"
-              />
-            </Link>
 
             {/* Desktop Navigation */}
             <nav className="flex items-center gap-6">
