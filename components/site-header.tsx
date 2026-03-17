@@ -47,7 +47,15 @@ export function SiteHeader() {
         <div className="mx-auto max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2">
+              <Image 
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png" 
+                alt="Isolele" 
+                width={120} 
+                height={40} 
+                className="object-contain"
+              />
+            </Link>
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png"
                 alt="ISOLELE"

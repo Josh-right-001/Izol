@@ -69,8 +69,8 @@ export function NetflixCarousel({ title, items, onItemClick }: NetflixCarouselPr
           className="flex gap-4 overflow-x-scroll scrollbar-hide"
         >
           {items.map((item, idx) => (
+            <Link key={item.id} href={`/shop/fashion/${item.id}`}>
             <motion.div
-              key={item.id}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: idx * 0.05 }}
@@ -119,6 +119,7 @@ export function NetflixCarousel({ title, items, onItemClick }: NetflixCarouselPr
                 </div>
               </div>
             </motion.div>
+            </Link>
           ))}
         </div>
 
