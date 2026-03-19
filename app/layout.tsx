@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { LanguageProvider } from '@/lib/language-context'
 import './globals.css'
 
 const geistSans = Geist({ 
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
   title: 'ISOLELE COMICS | Home of African Superheroes | Zaiire Prince of Kongo',
   description: 'Isolele est un univers visionnaire ne pour restaurer l\'ame du storytelling africain - un empire mythologique ou les Superheros sont choisis par le destin. Decouvrez Zaiire, le Prince du Kongo et son Collier de la Destinee.',
   generator: 'Isolele Comics',
+  icons: {
+    icon: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
+    apple: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
+  },
   keywords: [
     // English keywords
     'Black African superhero comics', 'African comics universe', 'Afrocentric comic book universe',
@@ -64,7 +69,7 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US', 'pt_BR', 'es_ES', 'sw_TZ', 'ln_CD', 'zu_ZA'],
     images: [
       {
-        url: '/images/isolele-logo.jpg',
+        url: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png',
         width: 1200,
         height: 630,
         alt: 'ISOLELE - African Superheroes Universe',
@@ -75,13 +80,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ISOLELE COMICS | Home of African Superheroes',
     description: 'Discover Zaiire, the Prince of Kongo. Black African superhero comics celebrating heritage and African mythology.',
-    images: ['/images/isolele-logo.jpg'],
+    images: ['https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ROYALITY%20LOGO%20PNG%201-09c0n0IhYfeKLKSgcTEIMuge2mKXpB.png'],
     creator: '@isolelecomics',
     site: '@isolelecomics',
-  },
-  icons: {
-    icon: '/images/isolele-logo.jpg',
-    apple: '/images/isolele-logo.jpg',
   },
   robots: {
     index: true,
@@ -122,7 +123,9 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
         <Analytics />
         <SpeedInsights />
       </body>

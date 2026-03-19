@@ -14,39 +14,39 @@ const characters = [
     name: "ZAIRE",
     title: "Prince du Kongo",
     description: "Fils du tonnerre et de la royaute, choisi par le Collier de la Destinee.",
-    image: "/images/characters/zaire.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/prince%20KONGO-U2LCw3IbgA3tvjZik1jwgyO1Cg4vBH.jpg",
     color: "#D4AF37",
   },
   {
-    id: "kimoya",
-    name: "KIMOYA",
-    title: "La Kandake Renaissante",
-    description: "Heritiere des reines guerrieres, chasseuse d\u2019ombres.",
-    image: "/images/characters/kimoya.jpg",
+    id: "bambula",
+    name: "BAMBULA",
+    title: "La Gardienne Féroce",
+    description: "Guerrière des savanes, maîtresse du feu et de la nature sauvage.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Bambula-upA7fPoDDA0lEpWY3mrhE8DaMMsYDt.jpg",
     color: "#B3541E",
   },
   {
-    id: "zattar",
-    name: "ZATTAR",
-    title: "L'Architecte de Sang",
-    description: "Genie maudit de la technologie interdite.",
-    image: "/images/characters/zattar.jpg",
+    id: "kufulula",
+    name: "KING KUFULULA",
+    title: "Le Roi Ancestral",
+    description: "Monarque légendaire de New York, protecteur de la lignée royale.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/King%20kufulula-8fVUdq3npeTQhuL4c8Gg9zKdoEcgnW.jpg",
     color: "#8B0000",
   },
   {
-    id: "njoko-twins",
-    name: "LES JUMEAUX NJOKO",
-    title: "Prophetes Orphelins",
-    description: "Orphelins prophetes qui parlent avec les rivieres et les etoiles.",
-    image: "/images/characters/njoko.jpg",
+    id: "mokele",
+    name: "MOKELE",
+    title: "Le Prince des Rues",
+    description: "Couronné par les rues, héritier du chaos urbain et de la puissance.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mokele-eSrGG08jLawtrHAMFsIFhvVlMMFC0Y.jpg",
     color: "#4169E1",
   },
   {
-    id: "imvula",
-    name: "REINE IMVULA",
-    title: "Gardienne des Betes du Ciel",
-    description: "Souveraine de Stormglass, gardienne des Betes du Ciel.",
-    image: "/images/characters/imvula.jpg",
+    id: "ensemble",
+    name: "L'ASSEMBLÉE ISOLELE",
+    title: "La Cour Unie",
+    description: "Les guerriers et reines du royaume ZAIIRE, réunis dans la splendeur.",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260114-WA0033-GDiVSeCo0RNYV9MnaNegMKTBjqPFrn.jpg",
     color: "#9932CC",
   },
 ]
@@ -163,20 +163,22 @@ export function CharactersSection() {
                     border: `1px solid ${currentTheme.colors.accentPrimary}30`,
                   }}
                 >
-                  {/* Character image placeholder */}
+                  {/* Character image with gradient overlay */}
                   <div 
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="absolute inset-0"
                     style={{
-                      background: `linear-gradient(135deg, ${character.color}40 0%, ${currentTheme.colors.background} 100%)`
+                      backgroundImage: `url('${character.image}')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
                     }}
-                  >
-                    <span 
-                      className="text-8xl font-black opacity-20"
-                      style={{ color: character.color }}
-                    >
-                      {character.name[0]}
-                    </span>
-                  </div>
+                  />
+                  {/* Gradient overlay - transparent top to color bottom */}
+                  <div 
+                    className="absolute inset-0"
+                    style={{
+                      background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${character.color}40 50%, ${currentTheme.colors.background} 100%)`
+                    }}
+                  />
                   
                   {/* Hover overlay */}
                   <div 

@@ -13,8 +13,9 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [isComplete, setIsComplete] = useState(false)
 
   useEffect(() => {
-    const duration = 3500
-    const interval = 30
+    // Simple 2-second load
+    const duration = 2000
+    const interval = 20
     const increment = 100 / (duration / interval)
 
     const timer = setInterval(() => {
@@ -34,8 +35,8 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     if (progress >= 100) {
       setTimeout(() => {
         setIsComplete(true)
-        setTimeout(onComplete, 800)
-      }, 1000)
+        setTimeout(onComplete, 300)
+      }, 200)
     }
   }, [progress, onComplete])
 
@@ -43,89 +44,41 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     <AnimatePresence>
       {!isComplete && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "#FFFFFF" }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.3 }}
         >
-          {/* Leopard pattern background at 15% opacity */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: "url('/images/leopard-pattern.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.15,
-              pointerEvents: "none"
-            }}
-          />
-
-          {/* Main logo with vibration animation */}
+          {/* Logo */}
           <motion.div
-            className="relative z-10 flex flex-col items-center"
-            animate={{ y: [0, 2, -2, 0] }}
-            transition={{ duration: 0.3, repeat: Number.POSITIVE_INFINITY }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center gap-8"
           >
-            {/* Golden ring glow around logo */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                boxShadow: "0 0 60px rgba(212,175,55,0.3), 0 0 120px rgba(212,175,55,0.1)",
-              }}
-              animate={{
-                boxShadow: [
-                  "0 0 60px rgba(212,175,55,0.2), 0 0 120px rgba(212,175,55,0.05)",
-                  "0 0 80px rgba(212,175,55,0.4), 0 0 160px rgba(212,175,55,0.15)",
-                  "0 0 60px rgba(212,175,55,0.2), 0 0 120px rgba(212,175,55,0.05)",
-                ],
-              }}
-              transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+            <Image
+              src="/isolele-logo-transparent.png"
+              alt="ISOLELE"
+              width={100}
+              height={100}
+              className="object-contain"
+              style={{ width: 'auto', height: 'auto' }}
+              priority
             />
 
-            {/* Isolele logo - stays still but vibrates */}
-            <motion.div
-              className="relative mb-6"
-              initial={{ opacity: 0, scale: 0.3 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Image
-                src="/images/isolele-logo.png"
-                alt="ISOLELE"
-                width={320}
-                height={320}
-                className="w-56 h-56 sm:w-72 sm:h-72 object-contain drop-shadow-[0_0_30px_rgba(212,175,55,0.3)]"
-                style={{ width: "auto", height: "auto" }}
-                priority
-              />
-            </motion.div>
-
             {/* Progress bar */}
-            <div className="relative h-0.5 w-48 sm:w-64 overflow-hidden rounded-full bg-gray-300">
+            <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="absolute inset-y-0 left-0 rounded-full"
-                style={{
-                  width: `${progress}%`,
-                  background: "linear-gradient(90deg, #D4AF37, #B3541E)",
-                }}
-              />
-              <motion.div
-                className="absolute inset-y-0 w-20 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                animate={{ x: [-80, 260] }}
-                transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                className="h-full bg-gradient-to-r from-yellow-500 to-yellow-600"
+                animate={{ width: `${progress}%` }}
+                transition={{ ease: "linear", duration: 0.05 }}
               />
             </div>
 
             {/* Loading text */}
-            <motion.p
-              className="mt-4 font-mono text-xs sm:text-sm tracking-[0.3em] text-center"
-              style={{ color: "#333333" }}
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-            >
-              {progress < 100 ? "AFRICAN MYTHOLOGY. REAWAKENED." : "WELCOME TO ISOLELE"}
-            </motion.p>
+            <p className="text-xs tracking-widest text-gray-600">
+              {Math.round(progress)}%
+            </p>
           </motion.div>
         </motion.div>
       )}

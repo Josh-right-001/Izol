@@ -95,7 +95,7 @@ export default function FounderPage() {
           {/* Background image */}
           <div className="absolute inset-0">
             <Image
-              src="/images/king-kufulula.jpg"
+              src="/founder.jpg"
               alt="HRM King Kufulula"
               fill
               className="object-cover object-top"
@@ -202,7 +202,7 @@ export default function FounderPage() {
               >
                 <div className="aspect-[3/4] rounded-2xl overflow-hidden relative" style={{ border: "2px solid var(--isolele-accent)" }}>
                   <Image
-                    src="/images/king-kufulula.jpg"
+                    src="/founder.jpg"
                     alt="HRM King Kufulula - Royal Portrait"
                     fill
                     className="object-cover object-top"
@@ -261,6 +261,40 @@ export default function FounderPage() {
                 </div>
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        {/* Leadership Team Section */}
+        <section className="py-24 px-4 md:px-8 bg-gradient-to-b from-transparent via-yellow-500/5 to-transparent">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-12 text-center"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: "var(--isolele-accent)" }}>
+                {lang === "fr" ? "Equipe de Leadership" : "Leadership Team"}
+              </h2>
+              <p className="text-lg" style={{ color: "var(--isolele-text-secondary)" }}>
+                {lang === "fr" ? "Vision collective pour l'heritage africain" : "Collective vision for African heritage"}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative rounded-2xl overflow-hidden shadow-2xl"
+              style={{ border: "2px solid var(--isolele-accent)" }}
+            >
+              <Image
+                src="/founder/founder-with-team.jpg"
+                alt="Leadership Team"
+                width={1200}
+                height={600}
+                className="w-full object-cover"
+              />
+            </motion.div>
           </div>
         </section>
 

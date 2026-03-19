@@ -34,6 +34,7 @@ export interface TranslationKeys {
   nav_shop: string
   nav_supporters: string
   nav_contact: string
+  nav_chatbot: string
   nav_all_characters: string
   nav_become_supporter: string
   nav_partners: string
@@ -188,6 +189,7 @@ export const translations: Record<Language, TranslationKeys> = {
     nav_shop: "Shop",
     nav_supporters: "Supporters",
     nav_contact: "Contact",
+    nav_chatbot: "AI Assistant",
     nav_all_characters: "All Characters",
     nav_become_supporter: "Become a Supporter",
     nav_partners: "Partners",
@@ -341,6 +343,7 @@ export const translations: Record<Language, TranslationKeys> = {
     nav_shop: "Boutique",
     nav_supporters: "Supporteurs",
     nav_contact: "Contact",
+    nav_chatbot: "Assistant IA",
     nav_all_characters: "Tous les Personnages",
     nav_become_supporter: "Devenir Supporteur",
     nav_partners: "Partenaires",

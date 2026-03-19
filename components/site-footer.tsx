@@ -71,11 +71,12 @@ export function SiteFooter() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/images/isolele-logo.png"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/isolele-removebg-preview-tm4sXVgXa1uSSyNDMcFJ3LOWdIwLve.png"
                 alt="ISOLELE"
-                width={40}
-                height={40}
+                width={60}
+                height={50}
                 className="object-contain"
+                style={{ width: 'auto', height: 'auto' }}
               />
               <span 
                 className="text-xl font-bold tracking-wider"
@@ -228,10 +229,11 @@ export function SiteFooter() {
           style={{ borderColor: `${currentTheme.colors.accentPrimary}20` }}
         >
           <p 
-            className="text-sm text-center md:text-left"
+            className="text-sm text-center md:text-left flex items-center gap-2"
             style={{ color: currentTheme.colors.textSecondary }}
           >
-            Copyright icone isolele. All right reserved. A Congolese Heritage Initiative
+            <span>©</span>
+            <span>{new Date().getFullYear()} ISOLELE. All rights reserved. A Congolese Heritage Initiative</span>
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <Link

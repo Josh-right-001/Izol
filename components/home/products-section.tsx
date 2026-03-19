@@ -16,7 +16,7 @@ const products = [
     descriptionFr: "Le premier chapitre epique de l'Univers Isolele",
     price: 26.99,
     originalPrice: 99.99,
-    image: "/images/zaiire-hero-cover.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ZAIIRE%20-%20PRINCE%20OF%20KONGO-5rfaF1Sj04RYxoqpyiUghbmqVm4XRK.jpg",
     badge: "PRE-ORDER",
     type: "comic" as const,
   },
@@ -28,7 +28,7 @@ const products = [
     descriptionFr: "Edition collector avec illustrations exclusives",
     price: 49.99,
     originalPrice: 149.99,
-    image: "/images/zaiire-hero-cover.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/KIMOYA%20-%20THE%20RISING%20KANDAKE-KPVfRjZKSMT6VuFheyzKCy1xBQpZnR.jpg",
     badge: "LIMITED",
     type: "book" as const,
   },
@@ -39,7 +39,7 @@ const products = [
     description: "Behind the scenes artwork and concept designs",
     descriptionFr: "Illustrations et concepts en coulisses",
     price: 34.99,
-    image: "/images/zaiire-hero-cover.jpg",
+    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Isolele%20ZAIIRE-Dtue97HrowazA77n72bnZDtP14unAG.jpg",
     badge: "NEW",
     type: "book" as const,
   },
@@ -110,10 +110,17 @@ export function ProductsSection() {
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
-                  src={product.image || "/placeholder.svg"}
+                  src={product.image || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/plug%20hover%20load%20image%20isolele-JAz4XM8dgs50DBWVhN4NtyfcYj9rsF.jpg"}
                   alt={product.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                {/* Gradient overlay */}
+                <div 
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${currentTheme.colors.background}60 60%, ${currentTheme.colors.background}cc 100%)`
+                  }}
                 />
                 <div 
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"

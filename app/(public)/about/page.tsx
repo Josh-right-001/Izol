@@ -6,6 +6,14 @@ import { Sparkles, Crown, Users, Globe, Zap, BookOpen, Heart, Star } from "lucid
 import { BreadcrumbJsonLd } from "@/components/json-ld"
 import Image from "next/image"
 
+// Founder profile data
+const founder = {
+  name: "King ISOLELE",
+  title: "Creator & Visionary",
+  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG-20260304-WA0022-EdfJP1LV7cTH5GvNir1Y5D3GmnODep.jpg",
+  bio: "A visionary who restores the soul of African storytelling"
+}
+
 const pillars = [
   {
     id: "mythology",
@@ -135,6 +143,42 @@ export default function AboutPage() {
               {lang === 'fr' ? "Qu'est-ce qu'ISOLELE ?" : "What is ISOLELE?"}
             </motion.h1>
           </div>
+        </section>
+
+        {/* Founder Section */}
+        <section className="py-20 px-4 md:px-8 max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row gap-12 items-center mb-20"
+          >
+            <div className="flex-1">
+              <Image
+                src={founder.image}
+                alt={founder.name}
+                width={400}
+                height={400}
+                className="rounded-lg shadow-2xl object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: 'var(--isolele-accent)' }}>
+                {founder.name}
+              </h2>
+              <p className="text-2xl font-semibold mb-4" style={{ color: 'var(--isolele-text-secondary)' }}>
+                {founder.title}
+              </p>
+              <p className="text-lg leading-relaxed" style={{ color: 'var(--isolele-text)' }}>
+                {founder.bio}
+              </p>
+              <p className="text-md mt-6" style={{ color: 'var(--isolele-text-secondary)' }}>
+                {lang === 'fr'
+                  ? "Le créateur visionnaire derrière ISOLELE, déterminé à restaurer l'âme du storytelling africain et à inspirer la prochaine génération de héros."
+                  : "The visionary creator behind ISOLELE, determined to restore the soul of African storytelling and inspire the next generation of heroes."}
+              </p>
+            </div>
+          </motion.div>
         </section>
 
         {/* Definition Section */}

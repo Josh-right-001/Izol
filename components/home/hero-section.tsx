@@ -7,6 +7,26 @@ import { useLanguage } from "@/lib/language-context"
 import Link from "next/link"
 import Image from "next/image"
 
+// Typing animation component
+function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [displayedText, setDisplayedText] = useState("")
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      let index = 0
+      const interval = setInterval(() => {
+        setDisplayedText(text.slice(0, index + 1))
+        index++
+        if (index >= text.length) clearInterval(interval)
+      }, 80)
+      return () => clearInterval(interval)
+    }, delay)
+    return () => clearTimeout(timer)
+  }, [text, delay])
+
+  return <span>{displayedText}</span>
+}
+
 export function HeroSection() {
   const { currentTheme } = useTheme()
   const { t } = useLanguage()
@@ -22,18 +42,21 @@ export function HeroSection() {
   }, [toggleSlide])
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Shared background */}
+    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      {/* Full background - ZAIIRE ensemble image or fallback */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/images/zaiire-hero-cover.jpg')",
+          backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Isolele%20ZAIIRE-dZ9qgcCZdyxMpgkCfSlSGCAMD2rMVC.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
+      {/* Subtle radial gradient overlay - mostly transparent to show image */}
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(135deg, ${currentTheme.colors.background}e6 0%, ${currentTheme.colors.backgroundSecondary}cc 50%, ${currentTheme.colors.background}e6 100%)`,
+          background: `radial-gradient(ellipse at center, ${currentTheme.colors.background}01 0%, ${currentTheme.colors.background}03 50%, ${currentTheme.colors.background}08 100%)`,
         }}
       />
 
@@ -88,7 +111,7 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1 }}
-              className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+              className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16 sm:py-20 lg:py-0"
             >
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -96,16 +119,16 @@ export function HeroSection() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 <h1
-                  className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-wider mb-4"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black tracking-wider mb-4 min-h-[1.2em]"
                   style={{
                     color: currentTheme.colors.textPrimary,
                     textShadow: `0 0 40px ${currentTheme.colors.accentPrimary}40`,
                   }}
                 >
-                  ZAIIRE
+                  <TypingText text="ZAIIRE" delay={300} />
                 </h1>
                 <p
-                  className="text-2xl sm:text-3xl font-bold tracking-widest mb-2"
+                  className="text-lg sm:text-2xl lg:text-3xl font-bold tracking-widest mb-2"
                   style={{ color: currentTheme.colors.accentPrimary }}
                 >
                   PRINCE DU KONGO
@@ -116,7 +139,7 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl font-semibold tracking-wide mb-6"
+                className="text-lg sm:text-xl lg:text-2xl font-semibold tracking-wide mb-6"
                 style={{ color: currentTheme.colors.textSecondary }}
               >
                 Le Collier de la Destinee
@@ -189,7 +212,7 @@ export function HeroSection() {
             >
               <div className="relative w-full max-w-2xl mx-auto aspect-[2/3] sm:aspect-[3/4] lg:max-w-3xl">
                 <Image
-                  src="/images/what-is-isolele.jpg"
+                  src="/universe/full-cast.jpg"
                   alt="What is Isolele? A visionary African universe born to reclaim memory, mythology, and power."
                   fill
                   className="object-contain drop-shadow-[0_0_40px_rgba(212,175,55,0.2)]"
